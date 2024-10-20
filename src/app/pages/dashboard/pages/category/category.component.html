@@ -1,0 +1,26 @@
+<div class="container">
+  
+  <div class="container--title">
+    <h1 class="title">Category Dashboard</h1>
+  </div>
+
+  <div class="container--button">
+    <app-button [buttonType]="buttonOpenModalType" [buttonName]="buttonOpenModalName" (click)="openModal()" class="btn-open-modal"></app-button>
+  </div>
+    
+
+    <app-modal 
+    *ngIf="modalVisible"
+    [title]="modalTitle"
+    [closeButtonName]="modalCloseButtonName"
+    [submitButtonName]="modalSubmitButtonName"
+    [formFields]="modalFormFields"
+    (closeModalEvent)="closeModal()"
+    (submitEvent)="onModalSubmit($event)">
+  </app-modal>
+
+  <section>
+    <p>Dreams things ...</p>
+  </section>
+</div>
+  

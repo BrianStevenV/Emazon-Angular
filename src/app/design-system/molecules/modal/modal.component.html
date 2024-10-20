@@ -1,0 +1,42 @@
+
+  <div class="modal">
+    <div class="modal__backdrop">
+      <div class="modal__container">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="modal__form">
+          <section class="modal__header">
+            <h1 class="modal__title">{{title}}</h1>
+            
+          </section>
+          <section class="modal__body">
+            <ng-container *ngFor="let field of formFields">
+              <app-label 
+                class="modal__label" 
+                [nameLabel]="field.label">
+              </app-label>
+              <app-input 
+                class="modal__input" 
+                [formControl]="getFormControl(field.name)" 
+                [inputType]="field.type"
+                [maxLength]="field.maxLength"
+                >
+              </app-input>
+            </ng-container>
+          </section>
+          <section class="modal__footer">
+            <app-button 
+              class="modal__submit-button" 
+              [buttonName]="submitButtonName" 
+              buttonType="submit">
+            </app-button>
+            <app-button 
+              class="modal__close-button" 
+              [buttonName]="closeButtonName" 
+              buttonType="close" 
+              (click)="close()">
+            </app-button>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+  
