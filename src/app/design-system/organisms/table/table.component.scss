@@ -1,0 +1,77 @@
+$phone: 480px;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;  
+
+    min-width: 80vw;
+    
+    border: 1px solid #ddd;
+
+    
+    @media screen and (max-width: 768px) {
+      
+      font-size: 12px;
+    }
+  }
+
+  thead {
+    th {
+      text-transform: uppercase; 
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background-color 0.2s ease-in-out;  
+    }
+  }
+
+
+ .table__container{
+  display: flex;
+  
+ } 
+
+ .table__head{
+  display: flex;
+  justify-content: center;
+ }
+
+  .table__component--header{
+  display: flex;
+  
+  }
+  .table__row{
+  display: flex;
+  }
+
+
+  .table__body{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-right: 5rem;
+
+  }
+
+  .table__component--row{
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  @media(max-width: $phone){
+    .table__body{
+      max-width: 90vw;
+      margin: 0px 20px;
+    }
+
+  }
+
+
+
+
+
+ 

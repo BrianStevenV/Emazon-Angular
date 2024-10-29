@@ -1,0 +1,42 @@
+// th {
+//     padding: 10px 12px;
+//     border: 1px solid #ddd;
+//     // background-color: #f4f4f4;
+//     background-color: green;
+//     text-align: left;
+//     font-weight: bold;
+//     font-size: 14px;
+  
+//     // Si quieres permitir ordenamiento con un cursor adecuado
+//     cursor: pointer;
+  
+//     // Opcional: Si hay alguna funcionalidad para el ordenamiento, puedes añadir iconos aquí
+//     .sortable {
+//       &:after {
+//         content: '🔼';  // Icono de orden ascendente (puedes usar iconos más sofisticados o CSS)
+//       }
+//       &.desc:after {
+//         content: '🔽';  // Icono de orden descendente
+//       }
+//     }
+//   }
+
+th {
+  padding: 12px 8px;
+  border: 1px solid #ddd;
+  background-color: #f5f5f5;
+  // text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  // white-space: nowrap;
+  
+  
+  @media screen and (max-width: 480px) {
+    padding: 8px 6px;
+    font-size: 13px;
+    
+  }
+}

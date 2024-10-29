@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CategoryService } from './category.service';
-import { Category } from '../../models/category.model';
+import { Category, CategoryResponse, Pagination } from '../../models/category.model';
 import { HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import 'zone.js/testing';
+import { SortDirection } from '../../models/paginator.model';
 
 describe('CategoryService', () => {
   let service: CategoryService;
@@ -13,6 +14,20 @@ describe('CategoryService', () => {
   const mockCategory: Category = {
     name: 'Test Category',
     description: 'Description of test category'
+  };
+
+  const mockPaginationResponse: Pagination<CategoryResponse> = {
+    content: [
+      {
+        id: 1,
+        name: 'Test Category',
+        description: 'Description of test category',
+      }
+    ],
+    pageNumber: 0,
+    pageSize: 10,
+    totalElements: 1,
+    totalPages: 1
   };
 
   beforeEach(() => {
@@ -60,4 +75,20 @@ describe('CategoryService', () => {
     const req = httpMock.expectOne(`${environment.stock_base_path}${environment.category_controller}${environment.category_post_create}`);
     req.flush(errorMessage, { status: 400, statusText: 'Bad Request' }); 
   });
+
+  it('should get categories with pagination and sorting', () => {
+    const pageNumber = 0;
+    const pageSize = 10;
+    const sortBy = SortDirection.ASC;
+
+    service.getCategories(pageNumber, pageSize, sortBy).subscribe((response: Pagination<CategoryResponse>) => {
+        expect(response).toEqual(mockPaginationResponse);
+        expect(response.content.length).toBe(1);
+        expect(response.content[0].name).toBe('Test Category');
+    });
+    const req = httpMock.expectOne(`${environment.stock_base_path}${environment.category_controller}${environment.category_get_pagination}?sortDirectionRequestDto=${sortBy}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockPaginationResponse);
+});
+
 });

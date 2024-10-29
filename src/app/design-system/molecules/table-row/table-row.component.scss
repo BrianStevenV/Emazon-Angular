@@ -1,0 +1,41 @@
+tr {
+    margin-bottom: 8px;
+    width: 100%;
+    display: flex;
+    
+  
+    
+    &:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  
+    
+    &:hover {
+      background-color: #9d3fe7;
+    }
+  
+    
+    td {
+      cursor: pointer;
+  
+      
+      a {
+        color: #007bff;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+}
+
+
+.table__row--cell{
+  width: 100%;
+  margin-right: 5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  
+}
+

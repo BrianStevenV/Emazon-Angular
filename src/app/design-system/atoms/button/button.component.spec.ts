@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ButtonComponent } from './button.component';
+import { By } from '@angular/platform-browser';
 
 describe('ButtonComponent', () => {
   let component: ButtonComponent;
@@ -44,5 +45,12 @@ describe('ButtonComponent', () => {
 
     const buttonElement: HTMLButtonElement = fixture.nativeElement.querySelector('button');
     expect(buttonElement.type).toBe('submit');
+  });
+
+  it('should emit onClick event when button is clicked', () => {
+    jest.spyOn(component.onClick, 'emit');
+    const buttonElement = fixture.debugElement.query(By.css('button')).nativeElement;
+    buttonElement.click();
+    expect(component.onClick.emit).toHaveBeenCalled();
   });
 });

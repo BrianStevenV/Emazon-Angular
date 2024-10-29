@@ -1,5 +1,4 @@
 
-
 export const TOAST_VISIBILITY_DURATION = 3000;
 
 export const TITLE_CATEGORY = 'Category' as const;
@@ -28,3 +27,37 @@ export const ERROR_CODES = {
   } as const;
 
   export const GENERIC_ERROR_MESSAGE = 'Error creating category';
+
+export const MIN_LENGTH = 3;
+export const DEFAULT_PAGE = 0;
+export const DEFAULT_PAGE_SIZE = 5;
+export const DEFAULT_SORT_BY = 'ASC';
+export const ELLIPSIS_THRESHOLD = 2;
+export const LAST_PAGE_THRESHOLD = 3;
+
+export const BUTTON_OPEN_MODAL_NAME = 'Add Category';
+export const BUTTON_OPEN_MODAL_TYPE = 'button';
+export const MODAL_VISIBLE = false;
+export const MODAL_TITLE = 'Create Category';
+export const MODAL_CLOSE_BUTTON_NAME = 'Close';
+export const MODAL_SUBMIT_BUTTON_NAME = 'Save';
+
+export const MODAL_FORM_FIELDS_NAME_CATEGORY_NAME = 'categoryName';
+export const MODAL_FORM_FIELDS_LABEL_CATEGORY_NAME = 'Category Name';
+export const MODAL_FORM_FIELDS_TYPE_TEXT = 'text';
+export const MODAL_FORM_FIELDS_DESCRIPTION_CATEGORY_DESCRIPTION = 'categoryDescription';
+export const MODAL_FORM_FIELDS_LABEL_CATEGORY_DESCRIPTION = 'Category Description';
+export const MODAL_FORM_FIELDS_TYPE_TEXTAREA = 'textarea';
+
+export const MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_NAME = 50;
+export const MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_DESCRIPTION = 90;
+
+export const TABLE_HEADERS_NAME = 'Name';
+export const TABLE_HEADERS_DESCRIPTION = 'Description';
+
+export const ERROR_SHOW_TOAST_MESSAGE_EXCEPTION = 'An error occurred while loading the categories.';
+export const ON_MODAL_SUBMIT_LENGTH_VALIDATION = 0;
+
+export const SERVICES_GET_CATEGORIES_SORT_DIRECTION = 'sortDirectionRequestDto';
+export const SERVICES_GET_CATEGORIES_PAGE_NUMBER = 'pageNumber';
+export const SERVICES_GET_CATEGORIES_PAGE_SIZE = 'pageSize';

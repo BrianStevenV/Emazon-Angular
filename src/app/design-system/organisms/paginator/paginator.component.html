@@ -1,0 +1,13 @@
+<div class="pagination">
+    <app-select 
+      [options]="itemsPerPageOptions"
+      (onSelect)="onItemsPerPageChange($event)"
+    ></app-select>
+    <app-span [start]="startItem" [end]="endItem" [total]="totalItems"></app-span>
+    <app-paginator-navigation
+    [isFirstPage]="currentPage === 1"
+    [isLastPage]="currentPage === totalPages"
+    (navigate)="goToPage($event)"
+    ></app-paginator-navigation>
+    <app-select [options]="sortDirectionOptions" (onSelect)="onSortDirectionChange($event)"></app-select>
+</div>

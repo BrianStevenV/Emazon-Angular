@@ -4,8 +4,22 @@ import { Validators } from '@angular/forms';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { Category } from 'src/app/shared/models/category.model';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
-import { ERROR_MESSAGES_BY_CODE, GENERIC_ERROR_MESSAGE, SUCCESS_MESSAGES_POST } from 'src/app/shared/constants/category/category.constants';
 import { ToastType } from 'src/app/shared/models/toast.model';
+import { SortDirection } from 'src/app/shared/models/paginator.model';
+
+import { BUTTON_OPEN_MODAL_NAME, BUTTON_OPEN_MODAL_TYPE, DEFAULT_PAGE, 
+  DEFAULT_PAGE_SIZE, DEFAULT_SORT_BY, ERROR_MESSAGES_BY_CODE, 
+  ERROR_SHOW_TOAST_MESSAGE_EXCEPTION, GENERIC_ERROR_MESSAGE, MODAL_CLOSE_BUTTON_NAME,
+  MODAL_FORM_FIELDS_DESCRIPTION_CATEGORY_DESCRIPTION, MODAL_FORM_FIELDS_LABEL_CATEGORY_DESCRIPTION,
+  MODAL_FORM_FIELDS_LABEL_CATEGORY_NAME, MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_DESCRIPTION,
+  MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_NAME, MODAL_FORM_FIELDS_NAME_CATEGORY_NAME,
+  MODAL_FORM_FIELDS_TYPE_TEXT, MODAL_FORM_FIELDS_TYPE_TEXTAREA, MODAL_SUBMIT_BUTTON_NAME, 
+  MODAL_TITLE, MODAL_VISIBLE, ON_MODAL_SUBMIT_LENGTH_VALIDATION, 
+  SUCCESS_MESSAGES_POST, TABLE_HEADERS_DESCRIPTION, TABLE_HEADERS_NAME } 
+  from 'src/app/shared/constants/category/category.constants';
+
+
+
 
 @Component({
   selector: 'app-category',
@@ -14,17 +28,27 @@ import { ToastType } from 'src/app/shared/models/toast.model';
 })
 export class CategoryComponent implements OnInit {
 
-  buttonOpenModalName = 'Add Category';
-  buttonOpenModalType = 'button';
-  modalVisible = false;
+  buttonOpenModalName = BUTTON_OPEN_MODAL_NAME;
+  buttonOpenModalType = BUTTON_OPEN_MODAL_TYPE;
+  modalVisible = MODAL_VISIBLE;
 
-  modalTitle = 'Create Category';
-  modalCloseButtonName = 'Close';
-  modalSubmitButtonName = 'Save';
+  modalTitle = MODAL_TITLE;
+  modalCloseButtonName = MODAL_CLOSE_BUTTON_NAME;
+  modalSubmitButtonName = MODAL_SUBMIT_BUTTON_NAME;
   modalFormFields = [
-    {name: 'categoryName', label: 'Category Name', type: 'text', validators: [Validators.required, Validators.maxLength(50)], maxLength: 50},
-    {name: 'categoryDescription', label: 'Category Description', type: 'textarea', validators: [Validators.required, Validators.maxLength(90)], maxLength: 90}
+    {name: MODAL_FORM_FIELDS_NAME_CATEGORY_NAME, label: MODAL_FORM_FIELDS_LABEL_CATEGORY_NAME, type: MODAL_FORM_FIELDS_TYPE_TEXT, validators: [Validators.required, Validators.maxLength(MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_NAME)], maxLength: MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_NAME},
+    {name: MODAL_FORM_FIELDS_DESCRIPTION_CATEGORY_DESCRIPTION, label: MODAL_FORM_FIELDS_LABEL_CATEGORY_DESCRIPTION, type: MODAL_FORM_FIELDS_TYPE_TEXTAREA, validators: [Validators.required, Validators.maxLength(MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_DESCRIPTION)], maxLength: MODAL_FORM_FIELDS_MAX_LENGTH_CATEGORY_DESCRIPTION}
   ];
+
+
+  sortDirection = SortDirection.ASC;
+  currentPage!:number;
+  totalItems!: number;
+  itemsPerPage !: number;
+  categories!: Category[];
+
+  tableHeaders = [TABLE_HEADERS_NAME, TABLE_HEADERS_DESCRIPTION];
+  tableData !: any[][];
   
 
   constructor(
@@ -32,8 +56,11 @@ export class CategoryComponent implements OnInit {
     private readonly toastService: ToastService
   ) {}
 
+
   ngOnInit(): void {
-    this.modalFormFields.forEach(field => { console.log(field); });
+    this.currentPage = DEFAULT_PAGE;
+    this.itemsPerPage = DEFAULT_PAGE_SIZE;
+    this.loadCategories();
    }
 
   openModal(): void {
@@ -48,7 +75,7 @@ export class CategoryComponent implements OnInit {
     const requiredFields = this.extractRequiredFields();
     const missingFields = this.findMissingFields(requiredFields, formData);
   
-    if (missingFields.length > 0) {
+    if (missingFields.length > ON_MODAL_SUBMIT_LENGTH_VALIDATION) {
       this.showMissingFieldsWarning(missingFields);
       return;
     }
@@ -57,12 +84,28 @@ export class CategoryComponent implements OnInit {
     this.createCategory(categoryData);
   }
   
+
+  loadCategories(
+    page: number = DEFAULT_PAGE,
+    size: number = DEFAULT_PAGE_SIZE,
+    sortBy: string = DEFAULT_SORT_BY
+  ): void {
+    this.categoryService.getCategories(page, size, sortBy).subscribe({
+      next: (response) => {
+        this.totalItems = response.totalElements; 
+        this.itemsPerPage = response.pageSize; 
+        this.categories = response.content; 
+        this.tableData = this.categories.map(({ name, description }) => [name || 'N/A', description || 'N/A']);
+        console.log(this.tableData);
+      },
+      error: (error) => {
+        this.toastService.showToast(ERROR_SHOW_TOAST_MESSAGE_EXCEPTION, ToastType.ERROR);
+      }
+    });
+  }
   
 
-
-
   createCategory(categoryData: any): void {
-    
     
     this.categoryService.createCategory(categoryData).subscribe({
       
@@ -78,15 +121,28 @@ export class CategoryComponent implements OnInit {
             ERROR_MESSAGES_BY_CODE[
               error.status as keyof typeof ERROR_MESSAGES_BY_CODE
             ] || GENERIC_ERROR_MESSAGE;
-            console.log("Mensaje de error que se enviará al toast: ", message);
           this.toastService.showToast(message, ToastType.ERROR);
         },
       }
     );
   }
-  
 
+  onPageChange(newPage: number): void {
+    if(newPage >= DEFAULT_PAGE && newPage <= this.totalItems) {
+      this.currentPage = newPage;
+      this.loadCategories(this.currentPage, this.itemsPerPage, this.sortDirection); 
+    }
+  }
 
+  onItemsPerPageChange(newSize: number): void {
+    this.itemsPerPage = newSize;
+    this.loadCategories(this.currentPage, this.itemsPerPage, this.sortDirection); 
+  }
+
+  onSortDirectionChange(newSortDirection: SortDirection): void {
+    this.sortDirection = newSortDirection;
+    this.loadCategories(this.currentPage, this.itemsPerPage, this.sortDirection); 
+  }
 
   private extractRequiredFields(): { name: string, label: string }[] {
     return this.modalFormFields.map(({ name, label }) => ({ name, label }));
@@ -112,4 +168,5 @@ export class CategoryComponent implements OnInit {
       description: formData.categoryDescription
     };
   }
+
 }

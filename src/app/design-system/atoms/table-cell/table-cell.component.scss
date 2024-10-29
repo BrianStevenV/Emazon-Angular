@@ -1,0 +1,30 @@
+
+.table__row--cell {
+  flex: 1;
+  
+  td {
+    padding: 12px 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+    min-height: 40px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    background-color: white;
+
+  
+    
+    // &:first-child {
+    //   width: 40%;
+    // }
+    
+    // &:last-child {
+    //   width: 60%;
+    // }
+    
+    @media screen and (max-width: 480px) {
+      padding: 8px 6px;
+      font-size: 13px;
+    }
+  }
+}

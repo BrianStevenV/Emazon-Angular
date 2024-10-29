@@ -1,0 +1,11 @@
+<div class="table__container">
+  <table>
+    <thead class="table__head">
+      <app-table-header-row [headers]="headers" class="table__component--header"></app-table-header-row>
+    </thead>
+    <tbody class="table__body">
+      <app-table-row *ngFor="let row of data" [rowData]="row" class="table__component--row"></app-table-row>
+    </tbody>
+  </table>
+</div>
+
