@@ -67,7 +67,7 @@ describe('CategoryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // Modal Tests
+  
   it('should open the modal', () => {
     component.openModal();
     expect(component.modalVisible).toBe(true);
@@ -78,7 +78,7 @@ describe('CategoryComponent', () => {
     expect(component.modalVisible).toBe(false);
   });
 
-  // Category Creation Tests
+  
   it('should create a category and show success toast', () => {
     const formData = {
       categoryName: 'New Category',
@@ -161,7 +161,7 @@ describe('CategoryComponent', () => {
     );
   });
 
-  // Form Validation Tests
+  
   it('should show a warning if categoryName is missing', () => {
     const formData = { 
       categoryName: '', 
@@ -192,7 +192,7 @@ describe('CategoryComponent', () => {
     );
   });
 
-  // Get Categories Tests
+  
   it('should load categories on init', () => {
     component.ngOnInit();
     
@@ -221,7 +221,7 @@ describe('CategoryComponent', () => {
     );
   });
 
-  // Pagination Tests
+  
   it('should change page and reload categories', () => {
     const newPage = 2;
     component.onPageChange(newPage);
@@ -253,7 +253,7 @@ describe('CategoryComponent', () => {
     );
   });
 
-  // Sort Direction Tests
+  
   it('should change sort direction and reload categories', () => {
     const newDirection = SortDirection.DESC;
     component.onSortDirectionChange(newDirection);

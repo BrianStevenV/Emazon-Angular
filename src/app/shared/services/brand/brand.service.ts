@@ -1,8 +1,10 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Brand } from '../../models/brand.model';
-import { Observable } from 'rxjs';
+import { Brand, BrandResponse } from '../../models/brand.model';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Pagination } from '../../models/paginator.model';
+import { SERVICES_GET_BRAND_SORT_DIRECTION, SERVICES_GET_BRAND_PAGE_NUMBER, SERVICES_GET_BRAND_PAGE_SIZE } from '../../constants/brand/brand.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +26,24 @@ export class BrandService {
       headers,
       observe: 'response',
     })
+  }
+
+  getBrands(pageNumber: number, pageSize: number, sortBy: string): Observable<Pagination<BrandResponse>>{
+      
+      let params = new HttpParams()
+      .set(SERVICES_GET_BRAND_SORT_DIRECTION, sortBy)
+      .set(SERVICES_GET_BRAND_PAGE_NUMBER, pageNumber.toString())
+      .set(SERVICES_GET_BRAND_PAGE_SIZE, pageSize.toString());
+  
+      return this.http.get<Pagination<BrandResponse>>(this.url + environment.brand_get_pagination, { params }).pipe(
+        map(( response: Pagination<BrandResponse>) => ({
+          ...response,
+          content: response.content.map((brand) => ({
+            ...brand,
+            name: brand.name,
+            description: brand.description
+          }))
+        }))
+      )
   }
 }

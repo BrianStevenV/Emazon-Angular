@@ -55,9 +55,9 @@ export const MODAL_FORM_FIELDS_MAX_LENGTH_BRAND_DESCRIPTION = 120;
 export const TABLE_HEADERS_NAME = 'Name';
 export const TABLE_HEADERS_DESCRIPTION = 'Description';
 
-export const ERROR_SHOW_TOAST_MESSAGE_EXCEPTION = 'An error occurred while loading the categories.';
+export const ERROR_SHOW_TOAST_MESSAGE_EXCEPTION = 'An error occurred while loading the brands.';
 export const ON_MODAL_SUBMIT_LENGTH_VALIDATION = 0;
 
-export const SERVICES_GET_CATEGORIES_SORT_DIRECTION = 'sortDirectionRequestDto';
-export const SERVICES_GET_CATEGORIES_PAGE_NUMBER = 'pageNumber';
-export const SERVICES_GET_CATEGORIES_PAGE_SIZE = 'pageSize';
+export const SERVICES_GET_BRAND_SORT_DIRECTION = 'sortDirectionRequestDto';
+export const SERVICES_GET_BRAND_PAGE_NUMBER = 'pageNumber';
+export const SERVICES_GET_BRAND_PAGE_SIZE = 'pageSize';
