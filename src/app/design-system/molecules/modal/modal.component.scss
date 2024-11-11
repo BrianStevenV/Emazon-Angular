@@ -14,12 +14,15 @@
     &__container {
       background: white; 
       border-radius: 8px; 
-      // box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
       width: 90%;
       max-width: 400px; 
       display: flex;
       flex-direction: column; 
       padding: 20px; 
+      position: relative; // Agrega esto para dropdown
+
+      max-height: 80vh; // Scroll into modal
+      overflow-y: auto; // Scroll into modal
     }
   
     &__header {
@@ -27,6 +30,8 @@
       justify-content: space-between; 
       align-items: center; 
       margin-bottom: 20px; 
+      
+      flex-shrink: 0; // Scroll into modal
     }
   
     &__title {
@@ -44,6 +49,8 @@
       display: flex;
       flex-direction: column; 
       gap: 15px; 
+
+      
     }
   
     &__label {
@@ -61,6 +68,8 @@
       display: flex;
       justify-content: space-between; 
       margin-top: 20px; 
+      
+      flex-shrink: 0; // Scroll into modal
     }
   
     &__submit-button {

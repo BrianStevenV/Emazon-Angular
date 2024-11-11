@@ -64,7 +64,7 @@ export class BrandComponent implements OnInit {
       return;
     }
   
-    const brandData = this.mapToCategoryData(formData);
+    const brandData = this.mapToBrandData(formData);
     this.createBrand(brandData);
   }
 
@@ -141,7 +141,7 @@ export class BrandComponent implements OnInit {
     this.toastService.showToast(message, ToastType.WARNING);
   }
   
-  private mapToCategoryData(formData: any): Brand {
+  private mapToBrandData(formData: any): Brand {
     return {
       name: formData.brandName,
       description: formData.brandDescription

@@ -46,4 +46,8 @@ export class CategoryService {
       }))
     )
   }
+
+  getAllCategories(): Observable<CategoryResponse[]>{
+    return this.http.get<CategoryResponse[]>(this.url + environment.category_get_all_categories);
+  }
 }

@@ -282,4 +282,118 @@ describe('CategoryComponent', () => {
       ToastType.ERROR
     );
   });
+
+
+  it('should handle invalid page size when changing items per page', () => {
+    
+    component.itemsPerPage = 5;
+    const invalidSize = -1;
+    
+    
+    jest.clearAllMocks();
+    
+    component.onItemsPerPageChange(invalidSize);
+    
+    
+    expect(component.itemsPerPage).toBe(5); 
+    
+  });
+  
+  it('should validate all required fields are present', () => {
+    const formData = {
+      categoryName: '  ',  
+      categoryDescription: 'Valid Description'
+    };
+    
+    component.onModalSubmit(formData);
+    
+    expect(categoryService.createCategory).not.toHaveBeenCalled();
+    expect(toastService.showToast).toHaveBeenCalledWith(
+      'Category Name is required.',
+      ToastType.WARNING
+    );
+  });
+  
+  it('should handle multiple missing required fields', () => {
+    const formData = {
+      categoryName: '   ',  
+      categoryDescription: '  '  
+    };
+    
+    component.onModalSubmit(formData);
+    
+    expect(categoryService.createCategory).not.toHaveBeenCalled();
+    expect(toastService.showToast).toHaveBeenCalledWith(
+      'Category Name and Category Description are required.',
+      ToastType.WARNING
+    );
+  });
+  
+  it('should handle missing properties in form data', () => {
+    const formData = {};  
+    
+    component.onModalSubmit(formData);
+    
+    expect(categoryService.createCategory).not.toHaveBeenCalled();
+    expect(toastService.showToast).toHaveBeenCalledWith(
+      'Category Name and Category Description are required.',
+      ToastType.WARNING
+    );
+  });
+  
+  it('should handle page change at maximum total items', () => {
+    const totalPages = Math.ceil(component.totalItems / component.itemsPerPage);
+    
+    component.onPageChange(totalPages);
+    
+    expect(component.currentPage).toBe(totalPages);
+    expect(categoryService.getCategories).toHaveBeenCalledWith(
+      totalPages,
+      component.itemsPerPage,
+      component.sortDirection
+    );
+  });
+  
+  it('should handle page change beyond maximum total items', () => {
+    
+    component.totalItems = 10;
+    component.itemsPerPage = 5;
+    component.currentPage = 2;
+    
+    const totalPages = Math.ceil(component.totalItems / component.itemsPerPage);
+    const invalidPage = totalPages;
+    const currentPage = component.currentPage;
+    
+    jest.clearAllMocks();
+    
+    component.onPageChange(invalidPage);
+    
+    expect(component.currentPage).toBe(2); 
+  });
+  
+  it('should map form data to category data correctly with trimmed values', () => {
+    const formData = {
+      categoryName: 'Test Category',
+      categoryDescription: 'Test Description'
+    };
+    
+    const mockResponse = new HttpResponse({
+      status: HttpStatusCode.Created,
+      body: {
+        name: 'Test Category',
+        description: 'Test Description'
+      }
+    });
+    categoryService.createCategory.mockReturnValue(of(mockResponse));
+    
+    component.onModalSubmit(formData);
+    
+    expect(categoryService.createCategory).toHaveBeenCalledWith({
+      name: formData.categoryName.trim(),
+      description: formData.categoryDescription.trim()
+    });
+  });
+
+
+
 });

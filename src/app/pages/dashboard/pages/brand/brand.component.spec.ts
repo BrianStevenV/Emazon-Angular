@@ -281,4 +281,47 @@ describe('BrandComponent', () => {
       ToastType.ERROR
     );
   });
+
+
+
+
+
+  it('should show warning for multiple missing fields', () => {
+    const formData = {
+      brandName: '',
+      brandDescription: ''
+    };
+
+    component.onModalSubmit(formData);
+
+    expect(brandService.createBrand).not.toHaveBeenCalled();
+    expect(toastService.showToast).toHaveBeenCalledWith(
+      'Brand Name and Brand Description are required.',
+      ToastType.WARNING
+    );
+  });
+
+  it('should not change page when totalItems is undefined', () => {
+    component.totalItems = undefined as any;
+    const currentPage = component.currentPage;
+    
+    component.onPageChange(2);
+
+    expect(component.currentPage).toBe(currentPage);
+  });
+
+  it('should show warning for fields with only whitespace', () => {
+    const formData = {
+      brandName: '   ',
+      brandDescription: 'Valid Description'
+    };
+
+    component.onModalSubmit(formData);
+
+    expect(brandService.createBrand).not.toHaveBeenCalled();
+    expect(toastService.showToast).toHaveBeenCalledWith(
+      'Brand Name is required.',
+      ToastType.WARNING
+    );
+  });
 });

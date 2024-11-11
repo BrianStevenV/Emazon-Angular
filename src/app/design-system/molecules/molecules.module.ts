@@ -7,6 +7,7 @@ import { ToastComponent } from './toast/toast.component';
 import { TableRowComponent } from './table-row/table-row.component';
 import { TableHeaderRowComponent } from './table-header-row/table-header-row.component';
 import { PaginatorNavigationComponent } from './paginator-navigation/paginator-navigation.component';
+import { DropdownComponent } from './dropdown/dropdown.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { PaginatorNavigationComponent } from './paginator-navigation/paginator-n
         ToastComponent,
         TableRowComponent,
         TableHeaderRowComponent,
-        PaginatorNavigationComponent
+        PaginatorNavigationComponent,
+        DropdownComponent
     ],
     imports: [
         AtomModule,
@@ -28,7 +30,8 @@ import { PaginatorNavigationComponent } from './paginator-navigation/paginator-n
         ToastComponent,
         TableRowComponent,
         TableHeaderRowComponent,
-        PaginatorNavigationComponent
+        PaginatorNavigationComponent,
+        DropdownComponent
     ]
 })
 export class MoleculesModule { }

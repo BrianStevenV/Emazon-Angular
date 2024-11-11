@@ -46,4 +46,8 @@ export class BrandService {
         }))
       )
   }
+
+  getAllBrands(): Observable<BrandResponse[]>{
+    return this.http.get<BrandResponse[]>(this.url + environment.brand_get_all_brands);
+  }
 }

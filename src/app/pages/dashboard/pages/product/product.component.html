@@ -1,0 +1,62 @@
+<div class="container">
+  
+    <div class="container--title">
+      <h1 class="title">Product Dashboard</h1>
+    </div>
+  
+    <div class="container--button">
+      <app-button [buttonType]="buttonOpenModalType" [buttonName]="buttonOpenModalName" (click)="openModal()" class="btn-open-modal"></app-button>
+    </div>
+      
+  
+      <app-modal 
+      *ngIf="modalVisible"
+      [title]="modalTitle"
+      [closeButtonName]="modalCloseButtonName"
+      [submitButtonName]="modalSubmitButtonName"
+      [formFields]="modalFormFields"
+      (closeModalEvent)="closeModal()"
+      (submitEvent)="onModalSubmit($event)"
+      [requiredOthersCamps]="true"
+      >
+
+        <section class="container__dropdown">
+          <app-dropdown
+          [items]="brands"
+          [filteredItems]="filteredBrands"
+          [selectedItems]="selectedBrands"
+          display="name"
+          id="id"
+          [maxSelectedItems]="1"
+          (selectedItem)="selectBrand($event)"
+          (removeItem)="removeBrand($event)"
+          [formControl]="getFormControlBrandId(brandId)"
+          [controlName]="brandIdName"
+          [buttonName]="buttonNameDropdownBrand"
+          class="dropdown__brands"
+        ></app-dropdown>
+
+        <app-dropdown
+          [items]="categories"
+          [filteredItems]="filteredCategories"
+          [selectedItems]="selectedCategories"
+          display="name"
+          id="id"
+          [maxSelectedItems]="3"
+          (selectedItem)="selectCategory($event)"
+          (removeItem)="removeCategory($event)"
+          [formControl]="getFormControlCategoryId(categoryId)"
+          [controlName]="categoryIdName"
+          [buttonName]="buttonNameDropdownCategory"
+          class="dropdown__categories"
+        ></app-dropdown>
+        </section>
+        
+    </app-modal>
+  
+    <section>
+        <p>Dreams things ...</p>
+    </section>
+  
+</div>
+    

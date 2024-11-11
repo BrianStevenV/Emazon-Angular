@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CategoryService } from './category.service';
-import { Category, CategoryResponse, Pagination } from '../../models/category.model';
+import { Category, CategoryResponse, Pagination } from 'src/app/shared/models/category.model';
 import { HttpResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import 'zone.js/testing';
@@ -90,5 +90,42 @@ describe('CategoryService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(mockPaginationResponse);
 });
+it('should get all categories', () => {
+  const mockCategories: CategoryResponse[] = [
+    {
+      id: 1,
+      name: 'Category 1',
+      description: 'Description 1',
+    },
+    {
+      id: 2,
+      name: 'Category 2',
+      description: 'Description 2',
+    }
+  ];
 
+  service.getAllCategories().subscribe((categories: CategoryResponse[]) => {
+    expect(categories.length).toBe(2);
+    expect(categories).toEqual(mockCategories);
+  });
+
+  const req = httpMock.expectOne(`${environment.stock_base_path}${environment.category_controller}${environment.category_get_all_categories}`);
+  expect(req.request.method).toBe('GET');
+  req.flush(mockCategories);
+});
+
+it('should handle error response when getting all categories', () => {
+  const errorMessage = 'An error occurred';
+
+  service.getAllCategories().subscribe(
+    () => fail('expected an error, not categories'),
+    (error) => {
+      expect(error.status).toBe(400);
+      expect(error.error).toContain(errorMessage);
+    }
+  );
+
+  const req = httpMock.expectOne(`${environment.stock_base_path}${environment.category_controller}${environment.category_get_all_categories}`);
+  req.flush(errorMessage, { status: 400, statusText: 'Bad Request' });
+});
 });
