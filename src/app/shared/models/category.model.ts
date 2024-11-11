@@ -16,3 +16,8 @@ export interface Pagination<T> {
     totalElements: number;
     totalPages: number;
 }
+
+export interface CategoryToUseInProduct {
+    id: number;
+    name: string;
+}

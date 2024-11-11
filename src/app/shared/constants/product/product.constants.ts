@@ -70,3 +70,16 @@ export const BUTTON_DROPDOWN_NAME_CATEGORY = 'Add Category';
 export const BUTTON_DROPDOWN_NAME_BRAND = 'Add Brand';
 
 export const BUTTON_DROPDOWN_TYPE = 'button';
+
+export const TABLE_HEADERS_NAME = 'Name';
+export const TABLE_HEADERS_DESCRIPTION = 'Description';
+export const TABLE_HEADERS_AMOUNT = 'Amount';
+export const TABLE_HEADERS_PRICE = 'Price';
+export const TABLE_HEADERS_BRAND = 'Brand';
+export const TABLE_HEADERS_CATEGORY = 'Categories';
+
+export const SERVICES_GET_PRODUCT_SORT_DIRECTION = 'sortDirectionRequestDto';
+export const SERVICES_GET_PRODUCT_PAGE_NUMBER = 'pageNumber';
+export const SERVICES_GET_PRODUCT_PAGE_SIZE = 'pageSize';
+
+export const ERROR_SHOW_TOAST_MESSAGE_EXCEPTION = 'An error occurred while loading the Products.';

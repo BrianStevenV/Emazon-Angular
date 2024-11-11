@@ -54,8 +54,20 @@
         
     </app-modal>
   
-    <section>
-        <p>Dreams things ...</p>
+    <section class="paginator--container">
+      <app-input class="input"></app-input>
+      <app-paginator class="paginator"
+        [totalItems]="totalItems"
+        [itemsPerPage]="itemsPerPage"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)"
+        (sortDirectionChange)="onSortDirectionChange($event)"
+      ></app-paginator> 
+      <app-table
+        class="table"
+        [headers]="tableHeaders"
+        [data]="tableData">
+      </app-table>
     </section>
   
 </div>

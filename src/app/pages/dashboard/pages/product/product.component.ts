@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { BUTTON_DROPDOWN_NAME_BRAND, BUTTON_DROPDOWN_NAME_CATEGORY, BUTTON_OPEN_MODAL_NAME, BUTTON_OPEN_MODAL_TYPE, ERROR_MESSAGES_BY_CODE, FORM_CONTROL_NAME_DROPDOWN_BRAND, FORM_CONTROL_NAME_DROPDOWN_CATEGORY, GENERIC_ERROR_MESSAGE, MAX_SELECTION_BRANDS, MAX_SELECTION_CATEGORIES, MODAL_CLOSE_BUTTON_NAME, MODAL_FORM_FIELDS_LABEL_PRODUCT_AMOUNT, MODAL_FORM_FIELDS_LABEL_PRODUCT_BRAND_ID, MODAL_FORM_FIELDS_LABEL_PRODUCT_CATEGORY_ID, MODAL_FORM_FIELDS_LABEL_PRODUCT_DESCRIPTION, MODAL_FORM_FIELDS_LABEL_PRODUCT_NAME, MODAL_FORM_FIELDS_LABEL_PRODUCT_PRICE, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_AMOUNT, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_DESCRIPTION, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_NAME, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_PRICE, MODAL_FORM_FIELDS_NAME_PRODUCT_AMOUNT, MODAL_FORM_FIELDS_NAME_PRODUCT_BRAND_ID, MODAL_FORM_FIELDS_NAME_PRODUCT_CATEGORY_ID, MODAL_FORM_FIELDS_NAME_PRODUCT_DESCRIPTION, MODAL_FORM_FIELDS_NAME_PRODUCT_NAME, MODAL_FORM_FIELDS_NAME_PRODUCT_PRICE, MODAL_FORM_FIELDS_TYPE_NUMBER, MODAL_FORM_FIELDS_TYPE_TEXT, MODAL_FORM_FIELDS_TYPE_TEXTAREA, MODAL_SUBMIT_BUTTON_NAME, MODAL_TITLE, MODAL_VISIBLE, ON_MODAL_SUBMIT_LENGTH_VALIDATION, SUCCESS_MESSAGES_POST } from 'src/app/shared/constants/product/product.constants';
+import { BUTTON_DROPDOWN_NAME_BRAND, BUTTON_DROPDOWN_NAME_CATEGORY, BUTTON_OPEN_MODAL_NAME, BUTTON_OPEN_MODAL_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_SORT_BY, ERROR_MESSAGES_BY_CODE, ERROR_SHOW_TOAST_MESSAGE_EXCEPTION, FORM_CONTROL_NAME_DROPDOWN_BRAND, FORM_CONTROL_NAME_DROPDOWN_CATEGORY, GENERIC_ERROR_MESSAGE, MAX_SELECTION_BRANDS, MAX_SELECTION_CATEGORIES, MODAL_CLOSE_BUTTON_NAME, MODAL_FORM_FIELDS_LABEL_PRODUCT_AMOUNT, MODAL_FORM_FIELDS_LABEL_PRODUCT_BRAND_ID, MODAL_FORM_FIELDS_LABEL_PRODUCT_CATEGORY_ID, MODAL_FORM_FIELDS_LABEL_PRODUCT_DESCRIPTION, MODAL_FORM_FIELDS_LABEL_PRODUCT_NAME, MODAL_FORM_FIELDS_LABEL_PRODUCT_PRICE, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_AMOUNT, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_DESCRIPTION, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_NAME, MODAL_FORM_FIELDS_MAX_LENGTH_PRODUCT_PRICE, MODAL_FORM_FIELDS_NAME_PRODUCT_AMOUNT, MODAL_FORM_FIELDS_NAME_PRODUCT_BRAND_ID, MODAL_FORM_FIELDS_NAME_PRODUCT_CATEGORY_ID, MODAL_FORM_FIELDS_NAME_PRODUCT_DESCRIPTION, MODAL_FORM_FIELDS_NAME_PRODUCT_NAME, MODAL_FORM_FIELDS_NAME_PRODUCT_PRICE, MODAL_FORM_FIELDS_TYPE_NUMBER, MODAL_FORM_FIELDS_TYPE_TEXT, MODAL_FORM_FIELDS_TYPE_TEXTAREA, MODAL_SUBMIT_BUTTON_NAME, MODAL_TITLE, MODAL_VISIBLE, ON_MODAL_SUBMIT_LENGTH_VALIDATION, SUCCESS_MESSAGES_POST, TABLE_HEADERS_AMOUNT, TABLE_HEADERS_BRAND, TABLE_HEADERS_CATEGORY, TABLE_HEADERS_DESCRIPTION, TABLE_HEADERS_NAME, TABLE_HEADERS_PRICE } from 'src/app/shared/constants/product/product.constants';
 import { FormControl, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/shared/services/product/product.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { ToastType } from 'src/app/shared/models/toast.model';
-import { Product } from 'src/app/shared/models/product.model';
+import { Product, ProductPaginator } from 'src/app/shared/models/product.model';
 import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { CategoryResponse } from 'src/app/shared/models/category.model';
 import { BrandResponse } from 'src/app/shared/models/brand.model';
 import { CategoryService } from 'src/app/shared/services/category/category.service';
 import { BrandService } from 'src/app/shared/services/brand/brand.service';
 import { Observable } from 'rxjs';
+import { SortDirection } from 'src/app/shared/models/paginator.model';
 
 @Component({
   selector: 'app-product',
@@ -20,6 +21,15 @@ import { Observable } from 'rxjs';
 export class ProductComponent implements OnInit {
 
 
+  sortDirection = SortDirection.ASC;
+  currentPage!:number;
+  totalItems!: number;
+  itemsPerPage !: number;
+
+  tableHeaders = [TABLE_HEADERS_NAME, TABLE_HEADERS_DESCRIPTION, TABLE_HEADERS_AMOUNT, TABLE_HEADERS_PRICE, TABLE_HEADERS_BRAND, TABLE_HEADERS_CATEGORY]
+  tableData !: any[][];
+  products!: ProductPaginator[];
+  
   categories!: CategoryResponse[];
   brands!: BrandResponse[];
 
@@ -89,6 +99,7 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.loadCategories();
     this.loadBrands();
+    this.loadProducts();
   }
 
 
@@ -141,18 +152,11 @@ export class ProductComponent implements OnInit {
   
   private findMissingFields(requiredFields: { name: string, label: string }[], formData: any): string[] {
     return requiredFields
-    // Filter out invalid fields, ensuring .trim() is only called on strings
     .filter(({ name }) => {
       const value = formData[name];
       return !formData.hasOwnProperty(name) || !value || (typeof value === 'string' && value.trim() === '');
     })
     .map(({ label }) => label);
-
-      // .filter(({ name }) => {
-        
-      //   return !formData.hasOwnProperty(name) || !formData[name] || formData[name].trim() === '';
-      // })
-      // .map(({ label }) => label);
   }
   
   private showMissingFieldsWarning(missingFields: string[]): void {
@@ -241,5 +245,42 @@ export class ProductComponent implements OnInit {
     );
   }
   
+
+  loadProducts(
+    page: number = DEFAULT_PAGE,
+    size: number = DEFAULT_PAGE_SIZE,
+    sortBy: string = DEFAULT_SORT_BY,
+  ): void {
+    this.productService.getProducts(page, size, sortBy).subscribe({
+      next: (response) => {
+        this.totalItems = response.totalElements;
+        this.itemsPerPage = response.pageSize;
+        this.products = response.content;
+        this.tableData = this.products.map(({ name, description, amount, price, brand, categories }) => [name || 'N/A', description || 'N/A', amount || 'N/A', price || 'N/A', brand.name || 'N/A', categories.map(category => category.name).join(', ') || 'N/A']);
+        console.log(`Products are: ${this.products}`);
+      },
+      error: (error) => {
+
+        this.toastService.showToast(ERROR_SHOW_TOAST_MESSAGE_EXCEPTION, ToastType.ERROR)
+      }
+    })
+  }
+
+  onPageChange(newPage: number): void {
+    if(newPage >= DEFAULT_PAGE && newPage <= this.totalItems) {
+      this.currentPage = newPage;
+      this.loadProducts(this.currentPage, this.itemsPerPage, this.sortDirection); 
+    }
+  }
+
+  onItemsPerPageChange(newSize: number): void {
+    this.itemsPerPage = newSize;
+    this.loadProducts(this.currentPage, this.itemsPerPage, this.sortDirection); 
+  }
+
+  onSortDirectionChange(newSortDirection: SortDirection): void {
+    this.sortDirection = newSortDirection;
+    this.loadProducts(this.currentPage, this.itemsPerPage, this.sortDirection); 
+  }
 
 }

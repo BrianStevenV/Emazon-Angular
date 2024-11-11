@@ -16,3 +16,29 @@
     color: black
 }
 
+.paginator--container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.input{
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    border-radius: 25px;
+    margin: 3vh 0px;
+}
+.table{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    margin: 10px;
+
+    @media screen and (max-width: 480px) {
+        margin:10px 10px;    
+      }
+}
+
