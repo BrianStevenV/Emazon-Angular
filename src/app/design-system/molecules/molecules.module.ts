@@ -8,6 +8,7 @@ import { TableRowComponent } from './table-row/table-row.component';
 import { TableHeaderRowComponent } from './table-header-row/table-header-row.component';
 import { PaginatorNavigationComponent } from './paginator-navigation/paginator-navigation.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
+import { FormFieldComponent } from './form-field/form-field.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { DropdownComponent } from './dropdown/dropdown.component';
         TableRowComponent,
         TableHeaderRowComponent,
         PaginatorNavigationComponent,
-        DropdownComponent
+        DropdownComponent,
+        FormFieldComponent
     ],
     imports: [
         AtomModule,
@@ -31,7 +33,8 @@ import { DropdownComponent } from './dropdown/dropdown.component';
         TableRowComponent,
         TableHeaderRowComponent,
         PaginatorNavigationComponent,
-        DropdownComponent
+        DropdownComponent,
+        FormFieldComponent
     ]
 })
 export class MoleculesModule { }

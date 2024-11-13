@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { WarehouseAssistantComponent } from './pages/register/warehouse-assistant/warehouse-assistant.component';
 
 @NgModule({
   declarations: [

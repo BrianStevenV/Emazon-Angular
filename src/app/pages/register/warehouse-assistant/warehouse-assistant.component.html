@@ -1,0 +1,15 @@
+<section class="container">
+    <h1>Register a new Warehouse Assistant</h1>
+    <form [formGroup]="warehouseAssistantFormGroup" (ngSubmit)="onSubmit()">
+      <div class="form__group" *ngFor="let field of fields">
+        <app-form-field 
+          [nameLabel]="field.nameLabel"
+          [inputControl]="getFormControl(field.formControlName)"
+          [inputType]="field.inputType"
+          [maxLength]="field.maxLength"
+        ></app-form-field>
+      </div>
+      <app-button [buttonName]="submitButtonName" [buttonType]="submitButtonType" class="submit__btn"></app-button>
+    </form>
+</section>
+  

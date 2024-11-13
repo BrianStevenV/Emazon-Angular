@@ -2,6 +2,9 @@
 export const environment = {
   production: false,
   stock_base_path: 'http://localhost:8081',
+  user_base_path: 'http://localhost:8082',
+  user_controller: '/api/v1/users',
+  user_post_warehouse: '/warehouse',
   category_controller: '/category',
   category_post_create: '/create',
   category_get_pagination: '/pagination/',

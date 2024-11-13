@@ -4,24 +4,31 @@ import { Routes, RouterModule } from "@angular/router";
 import { CategoryComponent } from 'src/app/pages/dashboard/pages/category/category.component';
 import { BrandComponent } from '../pages/dashboard/pages/brand/brand.component';
 import { ProductComponent } from '../pages/dashboard/pages/product/product.component';
+import { WarehouseAssistantComponent } from '../pages/register/warehouse-assistant/warehouse-assistant.component';
+import { ROUTE_CATEGORY, ROUTE_BRAND, ROUTE_PRODUCT, ROUTE_WAREHOUSE_ASSISTANT_REGISTER } from './constants/routing.constants';
 
 
 
 export const routes: Routes = [
     {
-        path: 'category',
+        path: ROUTE_CATEGORY,
         component: CategoryComponent,
         loadChildren: () => import('../pages/dashboard/pages/category/category.module').then(m => m.CategoryModule)
     },
     {
-        path: 'brand',
+        path: ROUTE_BRAND,
         component: BrandComponent,
         loadChildren: () => import('../pages/dashboard/pages/brand/brand.module').then(m => m.BrandModule)
     },
     {
-        path: 'product',
+        path: ROUTE_PRODUCT,
         component: ProductComponent,
         loadChildren: () => import('../pages/dashboard/pages/product/product.module').then(m => m.ProductModule)
+    },
+    {
+        path: ROUTE_WAREHOUSE_ASSISTANT_REGISTER,
+        component: WarehouseAssistantComponent,
+        loadChildren: () => import('../pages/register/warehouse-assistant/warehouse-assistant.module').then(m => m.WarehouseAssistantModule)
     }
 ]
 
