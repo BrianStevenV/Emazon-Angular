@@ -5,7 +5,8 @@ import { CategoryComponent } from 'src/app/pages/dashboard/pages/category/catego
 import { BrandComponent } from '../pages/dashboard/pages/brand/brand.component';
 import { ProductComponent } from '../pages/dashboard/pages/product/product.component';
 import { WarehouseAssistantComponent } from '../pages/register/warehouse-assistant/warehouse-assistant.component';
-import { ROUTE_CATEGORY, ROUTE_BRAND, ROUTE_PRODUCT, ROUTE_WAREHOUSE_ASSISTANT_REGISTER } from './constants/routing.constants';
+import { ROUTE_CATEGORY, ROUTE_BRAND, ROUTE_PRODUCT, ROUTE_WAREHOUSE_ASSISTANT_REGISTER, ROUTE_LOGIN } from './constants/routing.constants';
+import { LoginComponent } from '../pages/login/login/login.component';
 
 
 
@@ -29,6 +30,11 @@ export const routes: Routes = [
         path: ROUTE_WAREHOUSE_ASSISTANT_REGISTER,
         component: WarehouseAssistantComponent,
         loadChildren: () => import('../pages/register/warehouse-assistant/warehouse-assistant.module').then(m => m.WarehouseAssistantModule)
+    },
+    {
+        path: ROUTE_LOGIN,
+        component: LoginComponent,
+        loadChildren: () => import('../pages/login/login/login.module').then(m => m.LoginModule)
     }
 ]
 

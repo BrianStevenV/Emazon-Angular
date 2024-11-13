@@ -4,6 +4,8 @@ export const environment = {
   stock_base_path: 'http://localhost:8081',
   user_base_path: 'http://localhost:8082',
   user_controller: '/api/v1/users',
+  auth_controller: '/api/v1/auth',
+  auth_post_login: '/login',
   user_post_warehouse: '/warehouse',
   category_controller: '/category',
   category_post_create: '/create',

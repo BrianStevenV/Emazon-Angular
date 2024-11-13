@@ -4,11 +4,13 @@ import { CommonModule } from "@angular/common";
 import { MoleculesModule } from "../molecules/molecules.module";
 import { AtomModule } from "../atoms/atoms.module";
 import { PaginatorComponent } from './paginator/paginator.component';
+import { FormSubmitComponent } from './form-submit/form-submit.component';
 
 @NgModule({
     declarations: [
         TableComponent,
-        PaginatorComponent
+        PaginatorComponent,
+        FormSubmitComponent
     ],
     imports: [
         CommonModule,
@@ -17,7 +19,8 @@ import { PaginatorComponent } from './paginator/paginator.component';
     ],
     exports: [
         TableComponent,
-        PaginatorComponent
+        PaginatorComponent,
+        FormSubmitComponent
     ]
 })
 export class OrganismsModule{}

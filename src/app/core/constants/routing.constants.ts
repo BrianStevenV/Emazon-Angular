@@ -1,3 +1,4 @@
+export const ROUTE_LOGIN = 'login';
 export const ROUTE_CATEGORY = 'category';
 export const ROUTE_BRAND = 'brand';
 export const ROUTE_PRODUCT = 'product';
