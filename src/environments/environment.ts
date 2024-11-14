@@ -8,6 +8,7 @@ export const environment = {
   user_controller: '/api/v1/users',
   auth_controller: '/api/v1/auth',
   auth_post_login: '/login',
+  user_post_customer: '/customer',
   user_post_warehouse: '/warehouse',
   category_controller: '/category',
   category_post_create: '/create',

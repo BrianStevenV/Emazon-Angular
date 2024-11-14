@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WarehouseAssistantComponent } from './warehouse-assistant.component';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 import { of, throwError } from 'rxjs';
@@ -134,5 +134,94 @@ describe('WarehouseAssistantComponent', () => {
     expect(showToastSpy).toHaveBeenCalledWith(TOAST_ON_SUBMIT_MESSAGE_ERROR, ToastType.ERROR);
   });
 
+  describe('ageValidator', () => {
+    let component: WarehouseAssistantComponent;
+    let toastServiceMock: jest.Mocked<ToastService>;
+    let userServiceMock: jest.Mocked<UserService>;
+    let formBuilderMock: jest.Mocked<FormBuilder>;
+  
+    beforeEach(() => {
+      
+      toastServiceMock = {
+        showToast: jest.fn()
+      } as any;
+  
+      userServiceMock = {} as any;
+      formBuilderMock = {} as any;
+  
+      
+      component = new WarehouseAssistantComponent(
+        toastServiceMock,
+        userServiceMock,
+        formBuilderMock
+      );
+    });
+  
+    
+    it('should return invalid when person is 18 but birthday has not arrived yet', () => {
+      const currentDate = new Date(2024, 10, 14); 
+      const birthdate = new Date(2006, 10, 15); 
+      jest.useFakeTimers();
+      jest.setSystemTime(currentDate);
+  
+      const validator = component.ageValidator();
+      const result = validator({ value: birthdate.toISOString() } as AbstractControl);
+  
+      expect(result).toEqual({ adult: false });
+      expect(toastServiceMock.showToast).toHaveBeenCalledWith(
+        "The System only allows input Adult's people.",
+        ToastType.WARNING
+      );
+  
+      jest.useRealTimers();
+    });
+  
+    it('should return invalid and show toast when person is under 18', () => {
+      const currentDate = new Date(2024, 10, 14); 
+      const birthdate = new Date(2007, 10, 14); 
+      jest.useFakeTimers();
+      jest.setSystemTime(currentDate);
+  
+      const validator = component.ageValidator();
+      const result = validator({ value: birthdate.toISOString() } as AbstractControl);
+  
+      expect(result).toEqual({ adult: false });
+      expect(toastServiceMock.showToast).toHaveBeenCalledWith(
+        "The System only allows input Adult's people.",
+        ToastType.WARNING
+      );
+  
+      jest.useRealTimers();
+    });
+  
+    
+    it('should return null when value is null', () => {
+      const validator = component.ageValidator();
+      const result = validator({ value: null } as AbstractControl);
+  
+      expect(result).toBeNull();
+      expect(toastServiceMock.showToast).not.toHaveBeenCalled();
+    });
+  
+    
+    it('should validate when person is older than 18', () => {
+      const currentDate = new Date(2024, 10, 14); 
+      const birthdate = new Date(2000, 10, 14); 
+      jest.useFakeTimers();
+      jest.setSystemTime(currentDate);
+  
+      const validator = component.ageValidator();
+      const result = validator({ value: birthdate.toISOString() } as AbstractControl);
+  
+      expect(result).toEqual({ adult: true });
+  
+      jest.useRealTimers();
+    });
+  
+    afterEach(() => {
+      jest.clearAllMocks();
+      jest.useRealTimers();
+    });
+  });
   
 });

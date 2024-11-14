@@ -24,4 +24,11 @@ export class UserService {
       observe: 'response',
     });
   }
+
+  createCustomerUser(user: User){
+    return this.http.post<User>(this.url + environment.user_post_customer, user, {
+      observe: 'response',
+    });
+  }
+  
 }

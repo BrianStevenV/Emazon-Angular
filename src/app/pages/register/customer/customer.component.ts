@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { TOAST_ON_SUBMIT_MESSAGE_ERROR, TOAST_ON_SUBMIT_MESSAGE_SUCCESS, WAREHOUSE_SUBMIT_BUTTON_NAME, WAREHOUSE_SUBMIT_BUTTON_TYPE } from 'src/app/shared/constants/user/warehouse/warehouse.constants';
+import { CUSTOMER_SUBMIT_BUTTON_NAME, CUSTOMER_SUBMIT_BUTTON_TYPE, TOAST_ON_SUBMIT_MESSAGE_SUCCESS, TOAST_ON_SUBMIT_MESSAGE_ERROR } from 'src/app/shared/constants/user/customer/customer.constants';
 import { ToastType } from 'src/app/shared/models/toast.model';
 import { User } from 'src/app/shared/models/user.model';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 import { UserService } from 'src/app/shared/services/user/user.service';
 
 @Component({
-  selector: 'app-warehouse-assistant',
-  templateUrl: './warehouse-assistant.component.html',
-  styleUrls: ['./warehouse-assistant.component.scss']
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styleUrls: ['./customer.component.scss']
 })
-export class WarehouseAssistantComponent implements OnInit {
+export class CustomerComponent implements OnInit {
 
-  public warehouseAssistantFormGroup!: FormGroup;
+  public customerFormGroup!: FormGroup;
 
-  submitButtonName = WAREHOUSE_SUBMIT_BUTTON_NAME;
-  submitButtonType = WAREHOUSE_SUBMIT_BUTTON_TYPE;
+  submitButtonName = CUSTOMER_SUBMIT_BUTTON_NAME;
+  submitButtonType = CUSTOMER_SUBMIT_BUTTON_TYPE;
 
   fields = [
     { nameLabel: 'Name', formControlName: 'userName', inputType: 'text', validators: [Validators.required, Validators.minLength(3)], maxLength: 50 },
@@ -32,12 +32,10 @@ export class WarehouseAssistantComponent implements OnInit {
     private readonly toastService: ToastService,
     private readonly userService: UserService,
     private readonly formBuilder: FormBuilder
-  ) { 
-    
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.warehouseAssistantFormGroup = this.formBuilder.group({
+    this.customerFormGroup = this.formBuilder.group({
       userName: ['', [Validators.required, Validators.minLength(3)]],
       userLastName: ['', [Validators.required, Validators.minLength(3)]],
       userIdentityDocument: ['', [Validators.required, Validators.minLength(8)]],
@@ -49,7 +47,7 @@ export class WarehouseAssistantComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const formData = this.warehouseAssistantFormGroup.value;
+    const formData = this.customerFormGroup.value;
     const requiredFields = this.extractRequiredFields();
     const missingFields = this.findMissingFields(requiredFields, formData);
 
@@ -57,31 +55,31 @@ export class WarehouseAssistantComponent implements OnInit {
       this.showMissingFieldsWarning(missingFields);
       return;
     } else {
-      const user = this.mapToWarehouseUserData(formData);
+      const user = this.mapToCustomerUserData(formData);
       console.log(user);
-      this.createWarehouseAssistantUser(user);
+      this.createCustomerUser(user);
     }
   }
 
-  createWarehouseAssistantUser(user: User) {
-    this.userService.createWarehouseUser(user).subscribe({
+  createCustomerUser(user: User) {
+    this.userService.createCustomerUser(user).subscribe({
       next: (response) => {
-        console.log(`Response from onSubmit warehouse: ${response}`);
+        console.log(`Response from onSubmit Customer: ${response}`);
         this.toastService.showToast(TOAST_ON_SUBMIT_MESSAGE_SUCCESS, ToastType.SUCCESS);
-        this.warehouseAssistantFormGroup.reset();
+        this.customerFormGroup.reset();
       },
       error: (error) => {
-        console.error(`Error from onSubmit warehouse: ${error}`);
+        console.error(`Error from onSubmit Customer: ${error}`);
         this.toastService.showToast(TOAST_ON_SUBMIT_MESSAGE_ERROR, ToastType.ERROR);
       }
     });
   }
 
   getFormControl(name: string): FormControl {
-    return this.warehouseAssistantFormGroup.get(name) as FormControl;
+    return this.customerFormGroup.get(name) as FormControl;
   }
 
-  ageValidator(): ValidatorFn {
+  private ageValidator(): ValidatorFn {
     return ({ value }: AbstractControl): ValidationErrors | null => {
       if (!value) return null;
   
@@ -117,7 +115,7 @@ export class WarehouseAssistantComponent implements OnInit {
     this.toastService.showToast(message, ToastType.WARNING);
   }
 
-  private mapToWarehouseUserData(formData: any): User {
+  mapToCustomerUserData(formData: any): User {
 
     return {
       name: formData.userName,
@@ -129,4 +127,5 @@ export class WarehouseAssistantComponent implements OnInit {
       password: formData.userPassword,
     };
   }
+
 }

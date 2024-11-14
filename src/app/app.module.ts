@@ -9,6 +9,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './core/auth/interceptors/auth.interceptor';
 import { AuthService } from './shared/services/auth/auth.service';
+import { CustomerComponent } from './pages/register/customer/customer.component';
 
 @NgModule({
   declarations: [

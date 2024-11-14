@@ -4,6 +4,17 @@ import { UserService } from './user.service';
 import { User } from '../../models/user.model';
 import { environment } from 'src/environments/environment';
 
+
+const mockUser: User = {
+  name: 'Mellisa',
+  surName: 'McCarthy',
+  dni: '12345678',
+  phone: '1234567890',
+  birthDate: new Date('1990-01-01'),
+  email: 'mellisa@gmail.com',
+  password: 'password',
+};
+
 describe('UserService', () => {
   let service: UserService;
   let httpMock: HttpTestingController;
@@ -48,5 +59,21 @@ describe('UserService', () => {
     expect(req.request.body).toEqual(mockUser);
 
     req.flush(mockUser); 
+  });
+
+  describe('createCustomerUser', () => {
+    it('should send a POST request to create a customer user', () => {
+      const url = `${environment.user_base_path}${environment.user_controller}${environment.user_post_customer}`;
+
+      service.createCustomerUser(mockUser).subscribe((response) => {
+        expect(response.status).toBe(200);
+      });
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(mockUser);
+
+      req.flush({}, { status: 200, statusText: 'OK' });
+    });
   });
 });

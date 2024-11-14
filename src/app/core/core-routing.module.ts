@@ -5,10 +5,11 @@ import { CategoryComponent } from 'src/app/pages/dashboard/pages/category/catego
 import { BrandComponent } from '../pages/dashboard/pages/brand/brand.component';
 import { ProductComponent } from '../pages/dashboard/pages/product/product.component';
 import { WarehouseAssistantComponent } from '../pages/register/warehouse-assistant/warehouse-assistant.component';
-import { ROUTE_CATEGORY, ROUTE_BRAND, ROUTE_PRODUCT, ROUTE_WAREHOUSE_ASSISTANT_REGISTER, ROUTE_LOGIN } from './constants/routing.constants';
+import { ROUTE_CATEGORY, ROUTE_BRAND, ROUTE_PRODUCT, ROUTE_WAREHOUSE_ASSISTANT_REGISTER, ROUTE_LOGIN, ROUTE_CUSTOMER_REGISTER } from './constants/routing.constants';
 import { LoginComponent } from '../pages/login/login/login.component';
 import { LoginGuard } from './auth/guards/login.guard';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { CustomerComponent } from '../pages/register/customer/customer.component';
 
 
 
@@ -43,6 +44,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren: () => import('../pages/register/warehouse-assistant/warehouse-assistant.module').then(m => m.WarehouseAssistantModule)
     },
+    {
+        path: ROUTE_CUSTOMER_REGISTER,
+        component: CustomerComponent,
+        loadChildren: () => import('../pages/register/customer/customer.module').then(m => m.CustomerModule)
+    }
     
     
 ]
