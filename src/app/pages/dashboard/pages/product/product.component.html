@@ -4,10 +4,21 @@
       <h1 class="title">Product Dashboard</h1>
     </div>
   
+    
     <div class="container--button">
       <app-button [buttonType]="buttonOpenModalType" [buttonName]="buttonOpenModalName" (click)="openModal()" class="btn-open-modal"></app-button>
+      <app-button *appRole="'WAREHOUSE_ASSISTANT_ROLE'" [buttonType]="buttonOpenModalTypeSupply" [buttonName]="buttonOpenModalNameSupply" (click)="openSupplyModal()" class="btn-open-modal"></app-button>
     </div>
       
+      <app-modal
+        *ngIf="modalSupplyVisible"
+        [formFields]="modalSupplyFormFields"
+        [closeButtonName]="modalCloseButtonName"
+        [submitButtonName]="modalSubmitButtonName"
+        [title]="modalSupplyTitle"
+        (submitEvent)="onModalSupplySubmit($event)"
+        (closeModalEvent)="closeSupplyModal()"
+      ></app-modal>
   
       <app-modal 
       *ngIf="modalVisible"

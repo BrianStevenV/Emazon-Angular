@@ -5,6 +5,8 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { BrandRoutingModule } from "./brand-routing.module";
 import { DesignSystemModule } from "src/app/design-system/design-system.module";
+import { DirectivesModule } from "src/app/shared/directives/directives.module";
+
 
 
 @NgModule({
@@ -16,7 +18,8 @@ import { DesignSystemModule } from "src/app/design-system/design-system.module";
         CommonModule,
         DesignSystemModule,
         BrandRoutingModule,
-        FormsModule
+        FormsModule,
+        DirectivesModule
     ]
 })
 export class BrandModule { }

@@ -6,7 +6,7 @@ export interface TokenPayload {
     email: string;
     password: string,
     id: number,
-    authorities: string;
+    roles: string;
     sub: string;
     iat: number;
     exp: number;

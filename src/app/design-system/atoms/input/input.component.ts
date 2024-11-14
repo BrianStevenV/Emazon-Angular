@@ -17,7 +17,7 @@ import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputComponent implements OnInit {
 
 
-  @Input() value!: string;
+  @Input() value!: string | undefined | boolean;
 
   @Input() inputControl = new FormControl();
   @Input() inputType!: string;
@@ -30,7 +30,13 @@ export class InputComponent implements OnInit {
 
   onInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    this.value = input.value.slice(0, this.maxLength); //Con Slice?
+
+    if (this.inputType === 'checkbox') {
+      this.value = input.checked;
+    } else {
+      this.value = input.value.slice(0, this.maxLength);
+    }
+    
     this.onChange(this.value);
   }
 

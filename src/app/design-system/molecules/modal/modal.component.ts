@@ -13,7 +13,7 @@ export class ModalComponent implements OnInit {
   @Input() title!: string;
   @Input() closeButtonName!: string;
   @Input() submitButtonName!: string;
-  @Input() formFields: { name: string, label: string, type: string, validators: any[], maxLength: number }[] = [];
+  @Input() formFields: { name: string, label: string, type: string, validators: any[], maxLength: number, value?:string | undefined }[] = [];
 
   @Output() closeModalEvent = new EventEmitter<void>();
   @Output() submitEvent = new EventEmitter<any>();
@@ -56,6 +56,7 @@ export class ModalComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.form.value);
     this.submitEvent.emit(this.form.value);
   }
 

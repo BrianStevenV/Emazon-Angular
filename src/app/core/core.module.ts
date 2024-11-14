@@ -6,6 +6,7 @@ import { CommonModule } from "@angular/common";
 import { RouterOutlet } from "@angular/router";
 import { CoreRoutingModule } from "./core-routing.module";
 import { BrandIdentityDesignModule } from "./brand-identity-design/brand-identity-design.module";
+import { DirectivesModule } from "../shared/directives/directives.module";
 
 
 @NgModule({
@@ -18,12 +19,15 @@ import { BrandIdentityDesignModule } from "./brand-identity-design/brand-identit
         CommonModule,
         RouterOutlet,
         CoreRoutingModule,
-        BrandIdentityDesignModule
+        BrandIdentityDesignModule,
+        DirectivesModule
     ],
     exports: [
         HeaderComponent,
         LayoutComponent,
         FooterComponent,
+        DirectivesModule
     ]
+    
 })
 export class CoreModule{}

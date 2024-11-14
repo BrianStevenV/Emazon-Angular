@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.loginFormGroup = this.formBuilder.group({
       username: ['', [Validators.required, Validators.maxLength(VALIDATORS_USERNAME_MAX_LENGTH)]],
       password: ['', [Validators.required, Validators.maxLength(VALIDATORS_PASSWORD_MAX_LENGTH)]]
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('I;m here');
     const formData = this.loginFormGroup.value;
     const requiredFields = this.extractRequiredFields();
     const missingFields = this.findMissingFields(requiredFields, formData);

@@ -17,7 +17,8 @@ import { DesignSystemModule } from "src/app/design-system/design-system.module";
         CommonModule,
         DesignSystemModule,
         CategoryRoutingModule,
-        FormsModule 
+        FormsModule,
+        
     ]
 })
 export class CategoryModule { }

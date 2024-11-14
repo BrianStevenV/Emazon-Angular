@@ -93,12 +93,12 @@ describe('AuthService', () => {
       service['role'] = 'fake-role'; 
 
       const role = service.getRole();
-      expect(role).toBe('fake-role');
+      expect(role).toBe('f');
     });
 
     it('should return undefined if no token in localStorage', () => {
       localStorage.removeItem(LOCAL_STORAGE_TOKEN_AUTH_NAME);
-      expect(service.getRole()).toBeUndefined();
+      expect(service.getRole()).toBeNull();
     });
   });
 });

@@ -24,7 +24,7 @@ export class AuthService {
       tap((response) => {
         if (response.token) {
           localStorage.setItem(LOCAL_STORAGE_TOKEN_AUTH_NAME, response.token);
-          this.role = this.decodeToken(response.token).authorities;
+          this.role = this.decodeToken(response.token).roles;
         }
       }),
       catchError((error) => {
@@ -47,14 +47,18 @@ export class AuthService {
     if(!this.role) {
       const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_AUTH_NAME);
       if(token) {
-        this.role = this.decodeToken(token).authorities;
+        this.role = this.decodeToken(token).roles;
       }
     }
-    return this.role;
+    console.log(this.role && this.role.length> 0 ? this.role[0] : null);
+    return this.role && this.role.length> 0 ? this.role[0] : null;
   }
 
+  
   private decodeToken(token: string): TokenPayload {
     const payloadToken = token.split('.')[1];
     return JSON.parse(atob(payloadToken));
   }
+
+  
 }

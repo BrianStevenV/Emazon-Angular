@@ -15,7 +15,7 @@ import { DesignSystemModule } from "src/app/design-system/design-system.module";
         CommonModule,
         DesignSystemModule,
         ProductRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ]
 })
 export class ProductModule { }

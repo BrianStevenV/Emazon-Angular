@@ -1,99 +1,123 @@
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InputComponent } from './input.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
 describe('InputComponent', () => {
   let component: InputComponent;
   let fixture: ComponentFixture<InputComponent>;
+  let inputElement: DebugElement;
+  let textareaElement: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [InputComponent],
-      imports: [ReactiveFormsModule], 
+      imports: [ReactiveFormsModule],
+      declarations: [InputComponent]
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(InputComponent);
     component = fixture.componentInstance;
+    component.inputControl = new FormControl('');
+    component.maxLength = 10;
+    component.inputType = 'text';
     fixture.detectChanges();
   });
 
-  
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  
-  it('should accept input properties', () => {
-    component.value = 'Test';
+  it('should render a text input when inputType is "text"', () => {
     component.inputType = 'text';
-    component.maxLength = 10;
-
-    expect(component.value).toBe('Test');
-    expect(component.inputType).toBe('text');
-    expect(component.maxLength).toBe(10);
-  });
-
-  
-  it('should update value on input', () => {
-    const inputElement: HTMLInputElement = fixture.nativeElement.querySelector('input');
-    component.maxLength = 5; 
-    component.value = 'Hello';
     fixture.detectChanges();
 
-    
-    inputElement.value = 'Hello World';
-    inputElement.dispatchEvent(new Event('input'));
-
-    expect(component.value).toBe('Hello'); 
+    inputElement = fixture.debugElement.query(By.css('input[type="text"]'));
+    expect(inputElement).toBeTruthy();
   });
 
-  
-  it('should call onChange when input value changes', () => {
-    const inputElement: HTMLInputElement = fixture.nativeElement.querySelector('input');
-    jest.spyOn(component, 'onChange'); 
-
-    inputElement.value = 'New Value';
-    inputElement.dispatchEvent(new Event('input'));
-
-    expect(component.onChange).toHaveBeenCalledWith('New Value'); 
-  });
-
-
-  it('should write value correctly', () => {
-    component.writeValue('Initial Value');
-    expect(component.value).toBe('Initial Value');
-  });
-
-
-  it('should register onChange and onTouch', () => {
-    const onChangeSpy = jest.fn();
-    const onTouchSpy = jest.fn();
-
-    component.registerOnChange(onChangeSpy);
-    component.registerOnTouched(onTouchSpy);
-
-    component.onChange('Test Value');
-    component.onTouch();
-
-    expect(onChangeSpy).toHaveBeenCalledWith('Test Value');
-    expect(onTouchSpy).toHaveBeenCalled();
-  });
-
-
-  it('should render textarea when inputType is textarea', () => {
+  it('should render a textarea when inputType is "textarea"', () => {
     component.inputType = 'textarea';
     fixture.detectChanges();
 
-    const textareaElement: HTMLTextAreaElement = fixture.nativeElement.querySelector('textarea');
-    expect(textareaElement).toBeTruthy(); 
+    textareaElement = fixture.debugElement.query(By.css('textarea'));
+    expect(textareaElement).toBeTruthy();
   });
 
- 
-  it('should render input when inputType is not textarea', () => {
-    component.inputType = 'text';
+  it('should render a checkbox input when inputType is "checkbox"', () => {
+    component.inputType = 'checkbox';
     fixture.detectChanges();
 
-    const inputElement: HTMLInputElement = fixture.nativeElement.querySelector('input');
-    expect(inputElement).toBeTruthy(); 
+    inputElement = fixture.debugElement.query(By.css('input[type="checkbox"]'));
+    expect(inputElement).toBeTruthy();
+  });
+
+  it('should update value when typing in a text input', () => {
+    const inputElement: HTMLInputElement = fixture.debugElement.query(By.css('input[type="text"]')).nativeElement;
+    inputElement.value = 'Test value';
+    inputElement.dispatchEvent(new Event('input'));
+
+    expect(component.value).toBe('Test value');
+  });
+
+  it('should limit the value to maxLength in a text input', () => {
+    const inputElement: HTMLInputElement = fixture.debugElement.query(By.css('input[type="text"]')).nativeElement;
+    inputElement.value = 'Test value exceeding max length';
+    inputElement.dispatchEvent(new Event('input'));
+
+    expect(component.value).toBe('Test value');
+  });
+
+  it('should update checkbox value correctly when checked', () => {
+    component.inputType = 'checkbox';
+    fixture.detectChanges();
+    const checkboxElement: HTMLInputElement = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+
+    checkboxElement.checked = true;
+    checkboxElement.dispatchEvent(new Event('input'));
+
+    expect(component.value).toBe(true);
+  });
+
+  it('should update checkbox value correctly when unchecked', () => {
+    component.inputType = 'checkbox';
+    fixture.detectChanges();
+    const checkboxElement: HTMLInputElement = fixture.debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+
+    checkboxElement.checked = false;
+    checkboxElement.dispatchEvent(new Event('input'));
+
+    expect(component.value).toBe(false);
+  });
+
+  it('should call onChange when input value changes', () => {
+    const inputElement: HTMLInputElement = fixture.debugElement.query(By.css('input[type="text"]')).nativeElement;
+    const onChangeSpy = jest.fn();
+    component.onChange = onChangeSpy;
+
+    inputElement.value = 'Test input';
+    inputElement.dispatchEvent(new Event('input'));
+
+    expect(onChangeSpy).toHaveBeenCalledWith('Test input');
+  });
+
+  it('should call writeValue correctly', () => {
+    component.writeValue('New value');
+    expect(component.value).toBe('New value');
+  });
+
+  it('should call registerOnChange with a function', () => {
+    const fn = jest.fn();
+    component.registerOnChange(fn);
+    expect(component.onChange).toBe(fn);
+  });
+
+  it('should call registerOnTouched with a function', () => {
+    const fn = jest.fn();
+    component.registerOnTouched(fn);
+    expect(component.onTouch).toBe(fn);
   });
 });

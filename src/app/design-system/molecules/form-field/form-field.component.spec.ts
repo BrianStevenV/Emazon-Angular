@@ -1,62 +1,68 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormFieldComponent } from './form-field.component';
-import { FormControl } from '@angular/forms';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { LabelComponent } from 'src/app/design-system/atoms/label'; // Suponiendo que tienes un componente app-label
+import { InputComponent } from 'src/app/design-system/atoms/input'; // Suponiendo que tienes un componente app-input
 import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
 describe('FormFieldComponent', () => {
   let component: FormFieldComponent;
   let fixture: ComponentFixture<FormFieldComponent>;
+  let nameLabelInput: DebugElement;
+  let inputElement: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [FormFieldComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      imports: [ReactiveFormsModule],
+      declarations: [FormFieldComponent, LabelComponent, InputComponent]
     }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(FormFieldComponent);
     component = fixture.componentInstance;
+    component.nameLabel = 'Test Label';
+    component.inputType = 'text';
+    component.inputControl = new FormControl('');
+    component.maxLength = 10;
+    component.value = '';
+    fixture.detectChanges();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render label and input components with correct input bindings', () => {
-    
-    component.nameLabel = 'Test Label';
-    component.inputType = 'text';
-    component.inputControl = new FormControl('');
-    component.maxLength = 10;
-    component.value = 'Initial Value';
+  it('should render the label component with the correct name', () => {
+    nameLabelInput = fixture.debugElement.query(By.css('.form__field--container__label app-label'));
+    expect(nameLabelInput.nativeElement.textContent).toBe('Test Label');
+  });
 
-   
-    fixture.detectChanges(); 
+  it('should render the input component with the correct type and maxLength', () => {
+    inputElement = fixture.debugElement.query(By.css('.form__field--container__input app-input'));
+    const inputComponent = inputElement.componentInstance;
 
-    
-    const labelComponent = fixture.debugElement.query(By.css('app-label')).componentInstance;
-    const inputComponent = fixture.debugElement.query(By.css('app-input')).componentInstance;
-
-    expect(labelComponent).toBeTruthy();
-    expect(labelComponent.nameLabel).toBe('Test Label');
-    
-    expect(inputComponent).toBeTruthy();
-    expect(inputComponent.value).toBe('Initial Value');
     expect(inputComponent.inputType).toBe('text');
     expect(inputComponent.maxLength).toBe(10);
   });
 
-  it('should update the value in the input control when value input changes', () => {
-    
-    component.inputControl = new FormControl('');
-    
-    
-    component.inputControl.setValue('New Value');
-    
-   
+  it('should bind the value to the input control', () => {
+    const inputElement: HTMLInputElement = fixture.debugElement.query(By.css('app-input input')).nativeElement;
+    inputElement.value = 'Test Value';
+    inputElement.dispatchEvent(new Event('input'));
     fixture.detectChanges();
-    
-    expect(component.inputControl.value).toBe('New Value');
+
+    expect(component.inputControl.value).toBe('Test Value');
   });
-  
+
+  it('should pass input control to app-input component', () => {
+    const inputComponent = fixture.debugElement.query(By.css('app-input')).componentInstance;
+    expect(inputComponent.inputControl).toBe(component.inputControl);
+  });
+
+  it('should bind maxLength to the app-input component', () => {
+    const inputComponent = fixture.debugElement.query(By.css('app-input')).componentInstance;
+    expect(inputComponent.maxLength).toBe(component.maxLength);
+  });
 });
