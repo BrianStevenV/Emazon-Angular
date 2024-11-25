@@ -7,6 +7,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 import { FormSubmitComponent } from './form-submit/form-submit.component';
 import { CardProductComponent } from "./card-product/card-product.component";
 import { CardProductDetailsComponent } from "./card-product-details/card-product-details.component";
+import { CardCartComponent } from './card-cart/card-cart.component';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { CardProductDetailsComponent } from "./card-product-details/card-product
         PaginatorComponent,
         FormSubmitComponent,
         CardProductComponent,
-        CardProductDetailsComponent
+        CardProductDetailsComponent,
+        CardCartComponent
     ],
     imports: [
         CommonModule,

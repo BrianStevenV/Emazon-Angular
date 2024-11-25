@@ -5,13 +5,14 @@ import { CategoryComponent } from 'src/app/pages/dashboard/pages/category/catego
 import { BrandComponent } from '../pages/dashboard/pages/brand/brand.component';
 import { ProductComponent } from '../pages/dashboard/pages/product/product.component';
 import { WarehouseAssistantComponent } from '../pages/register/warehouse-assistant/warehouse-assistant.component';
-import { ROUTE_CATEGORY, ROUTE_BRAND, ROUTE_PRODUCT, ROUTE_WAREHOUSE_ASSISTANT_REGISTER, ROUTE_LOGIN, ROUTE_CUSTOMER_REGISTER, ROUTE_HOME, ROUTE_PRODUCT_DETAILS } from './constants/routing.constants';
+import { ROUTE_CATEGORY, ROUTE_BRAND, ROUTE_PRODUCT, ROUTE_WAREHOUSE_ASSISTANT_REGISTER, ROUTE_LOGIN, ROUTE_CUSTOMER_REGISTER, ROUTE_HOME, ROUTE_PRODUCT_DETAILS, ROUTE_CART } from './constants/routing.constants';
 import { LoginComponent } from '../pages/login/login/login.component';
 import { LoginGuard } from './auth/guards/login.guard';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { CustomerComponent } from '../pages/register/customer/customer.component';
 import { HomeComponent } from '../pages/dashboard/pages/home/home.component';
 import { ProductDetailsComponent } from '../pages/dashboard/pages/product-details/product-details.component';
+import { CartComponent } from '../pages/dashboard/pages/cart/cart.component';
 
 
 
@@ -62,6 +63,12 @@ export const routes: Routes = [
         component: ProductDetailsComponent,
         canActivate: [AuthGuard],
         loadChildren: () => import('../pages/dashboard/pages/product-details/product-details.module').then(m => m.ProductDetailsModule)
+    },
+    {
+        path: ROUTE_CART,
+        component: CartComponent,
+        canActivate: [AuthGuard],
+        loadChildren: () => import('../pages/dashboard/pages/cart/cart.module').then(m => m.CartModule)
     }
     
     

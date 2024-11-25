@@ -1,0 +1,23 @@
+<section class="container">
+    <div>
+        <h1>Cart Details Info</h1>
+    </div>
+    <section class="paginator--container">
+        <app-input class="input"></app-input>
+        <app-paginator class="paginator"
+          [totalItems]="totalItems"
+          [itemsPerPage]="itemsPerPage"
+          (pageChange)="onPageChange($event)"
+          (itemsPerPageChange)="onItemsPerPageChange($event)"
+          (sortDirectionChange)="onSortDirectionChange($event)"
+        ></app-paginator> 
+        <app-table
+          class="table"
+          [headers]="tableHeaders"
+          [data]="tableData">
+        </app-table>
+      </section>
+      <section class="info--price--pay__container">
+        <h3>Total: ${{subtotal}}</h3>
+      </section>
+</section>

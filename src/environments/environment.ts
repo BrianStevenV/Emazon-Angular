@@ -26,6 +26,9 @@ export const environment = {
   supply_post_add: '/',
   product_get_pagination: '/pagination/',
   cart_post_add: '/add',
+  cart_post_remove_product_to_cart: '/remove',
+  cart_get_pagination_cart: '/pagination/',
+  cart_get_list_cart_details: '/cart/details/',
   auth_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBvd2VyIFVwIEZ1bGwgU3RhY2siLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.8r-71aFvp9lUbJHbUQnkHTYzlfZsdeF5n2ZZedqgee4"
 };
 
