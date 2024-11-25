@@ -12,4 +12,12 @@ export class CartMethodsUtils {
             return emptyCart;
         }
     }
+
+    public static removeCartStorage(nameStorage: string): void {
+        if (localStorage.getItem(nameStorage)) {
+            localStorage.removeItem(nameStorage);
+        } else {
+            console.warn(`No se encontró un localStorage con el nombre '${nameStorage}'.`);
+        }
+    }
 }

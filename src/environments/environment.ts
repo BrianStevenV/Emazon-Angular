@@ -7,6 +7,7 @@ export const environment = {
   cart_base_path: 'http://localhost:8084',
   cart_controller: '/cart',
   supply_controller: '/api/v1/supplies',
+  sales_controller: '/sales',
   user_controller: '/api/v1/users',
   auth_controller: '/api/v1/auth',
   auth_post_login: '/login',
@@ -29,6 +30,7 @@ export const environment = {
   cart_post_remove_product_to_cart: '/remove',
   cart_get_pagination_cart: '/pagination/',
   cart_get_list_cart_details: '/cart/details/',
+  sales_post_buy_cart: '/buy-cart',
   auth_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBvd2VyIFVwIEZ1bGwgU3RhY2siLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.8r-71aFvp9lUbJHbUQnkHTYzlfZsdeF5n2ZZedqgee4"
 };
 

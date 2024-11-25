@@ -80,4 +80,12 @@
       <section class="info--price--pay__container">
         <h3>Total: ${{subtotal}}</h3>
       </section>
+      <section>
+        <app-button
+          [buttonName]="buttonPayName"
+          [buttonType]="buttonPayType"
+          (click)="buyCart()"
+          class="btn-pay"
+        ></app-button>
+      </section>
 </section>

@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { BUTTON_CLOSE_MODAL_DELETE_NAME, BUTTON_CLOSE_MODAL_DELETE_TYPE, BUTTON_OPEN_MODAL_DELETE_NAME, BUTTON_OPEN_MODAL_DELETE_TYPE, BUTTON_SUBMIT_MODAL_DELETE_NAME, BUTTON_SUBMIT_MODAL_DELETE_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_SORT_BY, LABEL_DELETE_ITEM_FORM_CART, MODAL_VISIBLE, TABLE_HEADERS_AMOUNT_IN_CART, TABLE_HEADERS_AMOUNT_IN_STOCK, TABLE_HEADERS_BRAND_NAME, TABLE_HEADERS_CART_DETAILS_ID, TABLE_HEADERS_CATEGORY_NAMES, TABLE_HEADERS_ID, TABLE_HEADERS_NAME, TABLE_HEADERS_NEXT_SUPPLY_DATE, TABLE_HEADERS_PRICE } from 'src/app/shared/constants/cart/cart.constants';
+import { Router } from '@angular/router';
+import { ROUTE_HOME } from 'src/app/core/constants/routing.constants';
+import { BUTTON_CLOSE_MODAL_DELETE_NAME, BUTTON_CLOSE_MODAL_DELETE_TYPE, BUTTON_OPEN_MODAL_DELETE_NAME, BUTTON_OPEN_MODAL_DELETE_TYPE, BUTTON_PAY_NAME, BUTTON_PAY_TYPE, BUTTON_SUBMIT_MODAL_DELETE_NAME, BUTTON_SUBMIT_MODAL_DELETE_TYPE, BUY_CART_SUCESSFULLY_MESSAGE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_SORT_BY, LABEL_DELETE_ITEM_FORM_CART, LOCAL_STORAGE_CART_NAME, MODAL_VISIBLE, TABLE_HEADERS_AMOUNT_IN_CART, TABLE_HEADERS_AMOUNT_IN_STOCK, TABLE_HEADERS_BRAND_NAME, TABLE_HEADERS_CART_DETAILS_ID, TABLE_HEADERS_CATEGORY_NAMES, TABLE_HEADERS_ID, TABLE_HEADERS_NAME, TABLE_HEADERS_NEXT_SUPPLY_DATE, TABLE_HEADERS_PRICE } from 'src/app/shared/constants/cart/cart.constants';
 import { CartDetailsResponseDto } from 'src/app/shared/models/cart.model';
 import { SortDirection } from 'src/app/shared/models/paginator.model';
 import { ToastType } from 'src/app/shared/models/toast.model';
 import { CartService } from 'src/app/shared/services/cart/cart.service';
+import { SalesService } from 'src/app/shared/services/sales/sales.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
+import { CartMethodsUtils } from 'src/app/shared/utils/cart.methods.utils';
 
 @Component({
   selector: 'app-cart',
@@ -15,6 +19,9 @@ export class CartComponent implements OnInit {
 
 
   inputValue!: string;
+
+  buttonPayName = BUTTON_PAY_NAME;
+  buttonPayType = BUTTON_PAY_TYPE;
 
   buttonOpenModalDeleteName = BUTTON_OPEN_MODAL_DELETE_NAME;
   buttonOpenModalDeleteType = BUTTON_OPEN_MODAL_DELETE_TYPE;
@@ -42,7 +49,9 @@ export class CartComponent implements OnInit {
 
   constructor(
     private readonly cartService: CartService,
-    private readonly toastService: ToastService
+    private readonly toastService: ToastService,
+    private readonly salesService: SalesService,
+    private readonly route: Router
   ) { }
 
   ngOnInit(): void {
@@ -115,5 +124,25 @@ export class CartComponent implements OnInit {
     });
   }
   
+  buyCart(): void {
+    this.salesService.buyCart().subscribe({
+      next: () => {
+        this.navigateToHome();
+        this.deleteCartStorage();
+        this.toastService.showToast(BUY_CART_SUCESSFULLY_MESSAGE, ToastType.SUCCESS);
+      },
+      error: (error) => {
+        this.toastService.showToast(error.error.message, ToastType.ERROR);
+      }
+    })
+  }
+
+  navigateToHome() {
+    this.route.navigate([`/${ROUTE_HOME}`]);
+  }
+
+  deleteCartStorage(){
+    CartMethodsUtils.removeCartStorage(LOCAL_STORAGE_CART_NAME); 
+  }
 
 }
