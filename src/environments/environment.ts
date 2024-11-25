@@ -4,6 +4,8 @@ export const environment = {
   stock_base_path: 'http://localhost:8081',
   user_base_path: 'http://localhost:8082',
   supply_base_path: 'http://localhost:8083',
+  cart_base_path: 'http://localhost:8084',
+  cart_controller: '/cart',
   supply_controller: '/api/v1/supplies',
   user_controller: '/api/v1/users',
   auth_controller: '/api/v1/auth',
@@ -20,8 +22,10 @@ export const environment = {
   brand_get_all_brands: '/all',
   product_controller: '/product',
   product_post_create: '/',
+  product_get_one_product: '/one',
   supply_post_add: '/',
   product_get_pagination: '/pagination/',
+  cart_post_add: '/add',
   auth_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlBvd2VyIFVwIEZ1bGwgU3RhY2siLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNTE2MjM5MDIyfQ.8r-71aFvp9lUbJHbUQnkHTYzlfZsdeF5n2ZZedqgee4"
 };
 

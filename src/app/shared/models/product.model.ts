@@ -11,6 +11,7 @@ export interface Product {
 }
 
 export interface ProductPaginator {
+    id: number;
     name: string;
     description: string;
     amount: number;

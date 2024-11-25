@@ -4,3 +4,5 @@ export const ROUTE_BRAND = 'brand';
 export const ROUTE_PRODUCT = 'product';
 export const ROUTE_WAREHOUSE_ASSISTANT_REGISTER = 'register/warehouse-assistant';
 export const ROUTE_CUSTOMER_REGISTER = 'register/customer';
+export const ROUTE_HOME = 'home';
+export const ROUTE_PRODUCT_DETAILS = 'product/details';

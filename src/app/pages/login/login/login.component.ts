@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { ToastService } from 'src/app/shared/services/toast/toast.service';
 
 import { Router } from '@angular/router';
+import { ROUTE_HOME } from 'src/app/core/constants/routing.constants';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +41,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log('I;m here');
     const formData = this.loginFormGroup.value;
     const requiredFields = this.extractRequiredFields();
     const missingFields = this.findMissingFields(requiredFields, formData);
@@ -95,6 +95,6 @@ export class LoginComponent implements OnInit {
   }
 
   navigateToDashboard() {
-    this.router.navigate(['/category']);
+    this.router.navigate([`/${ROUTE_HOME}`]);
   }
 }

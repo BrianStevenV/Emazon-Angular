@@ -1,5 +1,6 @@
-
+<!-- 
    <nav class="nav nav--container">
+    
     <ng-container *ngIf="isMobile; else desktopNav">
       <ng-container *ngIf="isMenuOpen; else hamburgerButton">
         <app-close-hamburguer-button (click)="toggleMenu()" class="close__hamburguer"></app-close-hamburguer-button>
@@ -8,16 +9,50 @@
         <app-hamburguer-button (click)="toggleMenu()" class="hamburguer"></app-hamburguer-button>
       </ng-template>
       <div class="mobile-menu" *ngIf="isMenuOpen">
-        <app-nav-link link="Menu"></app-nav-link>
-        <app-nav-link link="Menu"></app-nav-link>
-        <app-nav-link link="Menu"></app-nav-link>
+        <ng-container *ngFor="let link of navLinks">
+          <app-nav-link [link]="link.title"></app-nav-link>
+        </ng-container>
       </div>
     </ng-container>
+  
+    
     <ng-template #desktopNav>
-      <app-nav-link link="Menu"></app-nav-link>
-      <app-nav-link link="Menu"></app-nav-link>
-      <app-nav-link link="Menu"></app-nav-link>
+      <ng-container *ngFor="let link of navLinks">
+        <app-nav-link [link]="link.title"></app-nav-link>
+      </ng-container>
     </ng-template>
   </nav>
+   -->
+
+   <nav class="nav nav--container">
+    <!-- Mobile Navigation -->
+    <ng-container *ngIf="isMobile; else desktopNav">
+      <ng-container *ngIf="isMenuOpen; else hamburgerButton">
+        <app-close-hamburguer-button (click)="toggleMenu()" class="close__hamburguer"></app-close-hamburguer-button>
+      </ng-container>
+      <ng-template #hamburgerButton>
+        <app-hamburguer-button (click)="toggleMenu()" class="hamburguer"></app-hamburguer-button>
+      </ng-template>
+      <div class="mobile-menu" *ngIf="isMenuOpen">
+        <ng-container *ngFor="let link of navLinks">
+          <app-nav-link 
+            [nameLink]="link.title" 
+            [path]="link.path" 
+            (linkClick)="onLinkClick($event)">
+          </app-nav-link>
+        </ng-container>
+      </div>
+    </ng-container>
   
+    <!-- Desktop Navigation -->
+    <ng-template #desktopNav>
+      <ng-container *ngFor="let link of navLinks">
+        <app-nav-link 
+          [nameLink]="link.title" 
+          [path]="link.path" 
+          (linkClick)="onLinkClick($event)">
+        </app-nav-link>
+      </ng-container>
+    </ng-template>
+  </nav>
   

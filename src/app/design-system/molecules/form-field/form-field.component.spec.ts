@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormFieldComponent } from './form-field.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { LabelComponent } from 'src/app/design-system/atoms/label'; // Suponiendo que tienes un componente app-label
-import { InputComponent } from 'src/app/design-system/atoms/input'; // Suponiendo que tienes un componente app-input
+import { LabelComponent } from '../../atoms/label/label.component';
+import { InputComponent } from '../../atoms/input/input.component';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 

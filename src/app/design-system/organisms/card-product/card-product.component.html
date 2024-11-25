@@ -1,0 +1,22 @@
+<figure class="figure__container">
+    <app-image-optimized [imagePath]="image"></app-image-optimized>
+    <figcaption class="figcaption__container">
+      <h3 class="figcaption figcaption__title">{{nameProduct}}</h3>
+      <p class="figcaption figcaption__price">$ {{price}}</p>
+    </figcaption>
+    <section class="button__container">
+      <app-button
+        [buttonName]="buttonViewDetailsName"
+        [buttonType]="buttonViewDetailsType"
+        class="btn__info"
+        (onClick)="onViewDetailsClick()">
+      </app-button>
+      <app-button
+        [buttonName]="buttonAddToCartName"
+        [buttonType]="buttonAddToCartType"
+        class="btn__add"
+        (onClick)="onAddToCartClick()">
+      </app-button>
+    </section>
+  </figure>
+  

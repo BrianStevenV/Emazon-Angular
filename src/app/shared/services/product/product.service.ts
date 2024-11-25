@@ -1,10 +1,11 @@
-import { HttpClient, HttpResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Product, ProductPaginator, ProductResponse } from '../../models/product.model';
+import { Product, ProductPaginator } from '../../models/product.model';
 import { map, Observable } from 'rxjs';
 import { Pagination } from '../../models/paginator.model';
 import { SERVICES_GET_PRODUCT_SORT_DIRECTION, SERVICES_GET_PRODUCT_PAGE_NUMBER, SERVICES_GET_PRODUCT_PAGE_SIZE } from '../../constants/product/product.constants';
+import { AuthMethodsUtils } from '../../utils/auth.methods.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,12 @@ import { SERVICES_GET_PRODUCT_SORT_DIRECTION, SERVICES_GET_PRODUCT_PAGE_NUMBER, 
 export class ProductService {
 
   public readonly url = `${environment.stock_base_path}${environment.product_controller}`;
-  private readonly jwtToken = `${environment.auth_token}`;
+
 
   constructor(private readonly http: HttpClient) { }
 
   createProduct(product: Product): Observable<HttpResponse<Product>> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.jwtToken}`,
-      'Content-Type': 'application/json'
-    });
-
+    const headers = AuthMethodsUtils.createAuthHeaders();
     return this.http.post<Product>(this.url + environment.product_post_create, product, {
       headers,
       observe: 'response',
@@ -29,6 +26,8 @@ export class ProductService {
   }
 
   getProducts(pageNumber: number, pageSize: number, sortBy: string): Observable<Pagination<ProductPaginator>>{
+    const headers = AuthMethodsUtils.createAuthHeaders();
+    
     let params = new HttpParams()
       .set(SERVICES_GET_PRODUCT_SORT_DIRECTION, sortBy)
       .set(SERVICES_GET_PRODUCT_PAGE_NUMBER, pageNumber.toString())
@@ -48,5 +47,10 @@ export class ProductService {
         }))
       }))
     )
+  }
+
+  getProductById(productId: number): Observable<ProductPaginator> {
+    const headers = AuthMethodsUtils.createAuthHeaders();
+    return this.http.get<ProductPaginator>(this.url + environment.product_get_one_product + '/' + productId, { headers });
   }
 }

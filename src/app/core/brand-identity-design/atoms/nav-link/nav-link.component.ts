@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-nav-link',
@@ -7,11 +7,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class NavLinkComponent implements OnInit {
 
-  @Input() link !: string;
+  @Input() nameLink !: string;
+  @Input() path?: string;
+  @Output() linkClick = new EventEmitter<string>();
   
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onClick() {
+    this.linkClick.emit(this.path);
+  }
 }

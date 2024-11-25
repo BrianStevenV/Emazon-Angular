@@ -1,0 +1,43 @@
+<figure class="figure">
+    <app-image-optimized [imagePath]="image"></app-image-optimized>
+    <figcaption>
+        <section class="info__container">
+            <h1>{{product.name}}</h1>
+            <p>{{product.description}}</p>
+            <p>{{product.price | currency}}</p>
+            <section class="categories__container">
+                <h1>Categories</h1>
+                <ul>
+                    <li *ngFor="let category of product.categories">{{ category.name }}</li>
+                </ul>
+            </section>
+            <section class="brands__container">
+                <h1>Brand</h1>
+                <p>{{product.brand?.name}}</p>
+            </section>
+        </section>
+        <section class="amount__container">
+            <app-button 
+            [buttonName]="buttonSubstractAmountName"
+            [buttonType]="buttonSubstractAmountType"
+            (onClick)="onSubstractAmount()"
+            class="btn__substract"
+            ></app-button>
+            <p class="amount__count">{{defaultAmountCount}}</p>
+            <app-button 
+            [buttonName]="buttonAddAmountName"
+            [buttonType]="buttonAddAmountType"
+            (onClick)="onAddAmount()"
+            class="btn__add"
+            ></app-button>
+        </section>
+        <section class="btn__actions__container">
+            <app-button
+            class="btn__add__to__cart" 
+            [buttonName]="buttonAddToCartName" 
+            [buttonType]="buttonAddToCartType"
+            (onClick)="productAddToCart.emit({ amount: defaultAmountCount, productId: product.id })"
+            ></app-button>
+        </section>
+    </figcaption>
+</figure>

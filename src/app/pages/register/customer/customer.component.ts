@@ -104,9 +104,17 @@ export class CustomerComponent implements OnInit {
     return this.fields.map(({ formControlName, nameLabel }) => ({ name: formControlName, label: nameLabel }));
   }
 
+  // private findMissingFields(requiredFields: { name: string, label: string }[], formData: any): string[] {
+  //   return requiredFields
+  //     .filter(({ name }) => !formData[name] || formData[name].trim() === '')
+  //     .map(({ label }) => label);
+  // }
   private findMissingFields(requiredFields: { name: string, label: string }[], formData: any): string[] {
     return requiredFields
-      .filter(({ name }) => !formData[name] || formData[name].trim() === '')
+      .filter(({ name }) => {
+        const value = formData[name];
+        return !formData.hasOwnProperty(name) || value === null || value === undefined || (typeof value === 'string' && value.trim() === '');
+      })
       .map(({ label }) => label);
   }
 

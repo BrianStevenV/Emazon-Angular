@@ -1,0 +1,58 @@
+<section class="container">
+    <h1>Product Information</h1>
+    <app-card-product-details
+      [product]="product"
+      [image]="'https://cdn2.thecatapi.com/images/nowPuzVLA.jpg'"
+      [buttonAddAmountName]="buttonAddAmountName"
+      [buttonAddAmountType]="buttonAddAmountType"
+      [buttonSubstractAmountName]="buttonSubstractAmountName"
+      [buttonSubstractAmountType]="buttonSubstractAmountType"
+      [defaultAmountCount]="defaultAmountCount"
+      [buttonAddToCartName]="buttonMainAddToCartName"
+      [buttonAddToCartType]="buttonMainAddToCartType"
+      (productAddToCart)="onAddMainToCart($event.amount, $event.productId)">
+    </app-card-product-details>
+    <!-- <section class="container__more__products">
+        <div *ngFor="let product of relatedProductsRandom; let i= index" >
+            <app-card-product
+            [nameProduct]="product.name"
+            [price]="product.price"
+            [productId]="product.id"
+            [image]="'https://cdn2.thecatapi.com/images/nowPuzVLA.jpg'"   
+            [buttonAddToCartName]="buttonAddToCartName"
+            [buttonAddToCartType]="buttonAddToCartType"
+            [buttonViewDetailsName]="buttonViewDetailsName"
+            [buttonViewDetailsType]="buttonViewDetailsType"
+            (viewDetails)="onViewDetails(product.id)"
+            (addToCart)="onAddToCart(product.name, product.price, product.id)">
+            </app-card-product>
+        </div>
+    </section> -->
+
+    <section class="relate__products__container">
+        <h1 class="related__products">Related Products</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis ducimus eveniet necessitatibus voluptatem, porro totam quos saepe repellat, officia animi laborum nihil soluta nemo dolorum doloremque nulla voluptatibus nam rerum.</p>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores architecto, rerum fugit unde iste cupiditate sed, nesciunt praesentium in nisi, porro facilis voluptate deserunt et distinctio. Sit eligendi fuga itaque?</p>
+    </section>
+    
+    <section class="container__more__products">
+        <div class="products-grid">
+          <div *ngFor="let product of relatedProductsRandom; let i = index" class="product-card">
+            <app-card-product
+              [nameProduct]="product.name"
+              [price]="product.price"
+              [productId]="product.id"
+              [image]="'https://cdn2.thecatapi.com/images/nowPuzVLA.jpg'"   
+              [buttonAddToCartName]="buttonAddToCartName"
+              [buttonAddToCartType]="buttonAddToCartType"
+              [buttonViewDetailsName]="buttonViewDetailsName"
+              [buttonViewDetailsType]="buttonViewDetailsType"
+              (viewDetails)="onViewDetails(product.id)"
+              (addToCart)="onAddToCart(product.name, product.price, product.id)">
+            </app-card-product>
+          </div>
+        </div>
+      </section>
+      
+</section>
+  

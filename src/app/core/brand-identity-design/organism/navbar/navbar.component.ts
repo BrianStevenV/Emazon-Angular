@@ -1,5 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { NavbarPaths } from 'src/app/shared/types/navbar-path-enum';
+import { Component, HostListener, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +9,8 @@ export class NavbarComponent implements OnInit {
 
   isMobile!: boolean;
   isMenuOpen!: boolean;
-  navLinks = NavbarPaths;
+  @Input()navLinks !: any;
+  @Output() navigate = new EventEmitter<string>();
 
   constructor() { }
 
@@ -25,6 +25,10 @@ export class NavbarComponent implements OnInit {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  onLinkClick(path: string) {
+    this.navigate.emit(path); 
   }
 
 }

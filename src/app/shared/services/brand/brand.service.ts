@@ -5,6 +5,7 @@ import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Pagination } from '../../models/paginator.model';
 import { SERVICES_GET_BRAND_SORT_DIRECTION, SERVICES_GET_BRAND_PAGE_NUMBER, SERVICES_GET_BRAND_PAGE_SIZE } from '../../constants/brand/brand.constants';
+import { AuthMethodsUtils } from '../../utils/auth.methods.utils';
 
 @Injectable({
   providedIn: 'root'
@@ -12,15 +13,11 @@ import { SERVICES_GET_BRAND_SORT_DIRECTION, SERVICES_GET_BRAND_PAGE_NUMBER, SERV
 export class BrandService {
 
   private readonly url = `${environment.stock_base_path}${environment.brand_controller}`;
-  private readonly jwtToken = `${environment.auth_token}`;
-
+  
   constructor(private readonly http: HttpClient) { }
 
   createBrand( brand: Brand ): Observable<HttpResponse<Brand>>{
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.jwtToken}`,
-      'Content-Type': 'application/json'
-    });
+    const headers = AuthMethodsUtils.createAuthHeaders();
 
     return this.http.post<Brand>(this.url + environment.brand_post_create, brand, {
       headers,
@@ -29,7 +26,8 @@ export class BrandService {
   }
 
   getBrands(pageNumber: number, pageSize: number, sortBy: string): Observable<Pagination<BrandResponse>>{
-      
+    const headers = AuthMethodsUtils.createAuthHeaders();
+
       let params = new HttpParams()
       .set(SERVICES_GET_BRAND_SORT_DIRECTION, sortBy)
       .set(SERVICES_GET_BRAND_PAGE_NUMBER, pageNumber.toString())
@@ -48,6 +46,9 @@ export class BrandService {
   }
 
   getAllBrands(): Observable<BrandResponse[]>{
+    const headers = AuthMethodsUtils.createAuthHeaders();
     return this.http.get<BrandResponse[]>(this.url + environment.brand_get_all_brands);
   }
+
+  
 }

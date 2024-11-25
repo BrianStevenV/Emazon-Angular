@@ -1,0 +1,38 @@
+$border-radius-btn: 26px;
+
+.figure{
+    display: flex;
+    gap: 5%;
+    width: 100%;
+}
+
+.amount__container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+}
+
+.btn__substract{
+    background-color: red;
+    border-radius: $border-radius-btn
+}
+.btn__add{
+    background-color: greenyellow;
+    border-radius: $border-radius-btn;
+}
+.amount__count{
+    font-weight: bold;
+    padding:10px;
+    border-radius: $border-radius-btn;
+}
+
+.btn__actions__container{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+}
+.btn__add__to__cart{
+    background-color: #9d3fe7;
+    border-radius: $border-radius-btn;
+}

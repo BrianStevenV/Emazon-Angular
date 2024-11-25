@@ -1,0 +1,28 @@
+
+.button__container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.btn__add{
+    background-color: #9d3fe7;
+    width: 100%;
+}
+
+.btn__info{
+    background-color: #f1c40f;
+    width: 100%;
+}
+
+
+@media screen and (max-width: 480px) {
+    .figure__container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }    
+}

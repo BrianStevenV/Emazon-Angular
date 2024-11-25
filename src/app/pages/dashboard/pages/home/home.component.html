@@ -1,0 +1,20 @@
+<section class="home">
+    <h1>Welcome to the Home Dashboard</h1>
+    <section class="product-card__container">
+      <div *ngFor="let product of cardInfoProducts; let i = index" class="product-card">
+        <app-card-product
+          [nameProduct]="product[0]" 
+          [price]="product[1]"
+          [productId]="products[i].id"
+          [image]="'https://cdn2.thecatapi.com/images/nowPuzVLA.jpg'"
+          [buttonAddToCartName]="buttonAddToCartName"
+          [buttonAddToCartType]="buttonAddToCartType"
+          [buttonViewDetailsName]="buttonViewDetailsName"
+          [buttonViewDetailsType]="buttonViewDetailsType"
+          (viewDetails)="onViewDetails($event.productId)"
+          (addToCart)="onAddToCart($event.name, $event.price, $event.id)">
+        </app-card-product>
+      </div>
+    </section>
+  </section>
+  

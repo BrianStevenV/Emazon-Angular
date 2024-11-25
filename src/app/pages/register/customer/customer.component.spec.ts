@@ -7,6 +7,7 @@ import { of, throwError } from 'rxjs';
 import { ToastType } from 'src/app/shared/models/toast.model';
 import { CUSTOMER_SUBMIT_BUTTON_NAME, CUSTOMER_SUBMIT_BUTTON_TYPE, TOAST_ON_SUBMIT_MESSAGE_SUCCESS, TOAST_ON_SUBMIT_MESSAGE_ERROR } from 'src/app/shared/constants/user/customer/customer.constants';
 import { HttpResponse } from '@angular/common/http';
+import { User } from 'src/app/shared/models/user.model';
 
 describe('CustomerComponent', () => {
   let component: CustomerComponent;
@@ -15,12 +16,18 @@ describe('CustomerComponent', () => {
   let userService: UserService;
 
   beforeEach(async () => {
+    const toastServiceMock = {
+      showToast: jest.fn()
+    } as any;
+    const userServiceMock = {
+      createCustomerUser: jest.fn().mockReturnValue(of({}))
+    }
     await TestBed.configureTestingModule({
       declarations: [CustomerComponent],
       imports: [ReactiveFormsModule, FormsModule],
       providers: [
-        { provide: ToastService, useValue: { showToast: jest.fn() } },
-        { provide: UserService, useValue: { createCustomerUser: jest.fn() } }
+        { provide: ToastService, useValue: toastServiceMock },
+        { provide: UserService, useValue: userServiceMock }
       ]
     }).compileComponents();
 
@@ -48,7 +55,7 @@ describe('CustomerComponent', () => {
       userPhone: '+123456789012',
       userEmail: 'john.doe@example.com',
       userPassword: 'password123',
-      userBirthdate: '2000-01-01'
+      userBirthdate: new Date('2000-01-01T00:00:00.000Z')
     };
     component.customerFormGroup.setValue(formData);
     const user: User = {
@@ -56,19 +63,19 @@ describe('CustomerComponent', () => {
       surName: 'Doe',
       dni: '12345678',
       phone: '+123456789012',
-      birthDate: '2000-01-01',
+      birthDate: new Date('2000-01-01T00:00:00.000Z'),
       email: 'john.doe@example.com',
       password: 'password123',
     };
   
-    // Simula un HttpResponse<User> en lugar de una cadena de texto
     const mockResponse = new HttpResponse({
       status: 200,
       body: user,
     });
   
-    jest.spyOn(userService, 'createCustomerUser').mockReturnValue(of(mockResponse));  // Aquí devolvemos el HttpResponse simulado
+    jest.spyOn(userService, 'createCustomerUser').mockReturnValue(of(mockResponse));  
     jest.spyOn(toastService, 'showToast');
+    jest.spyOn(component.customerFormGroup, 'reset');
   
     // Act
     component.onSubmit();
@@ -142,7 +149,7 @@ describe('CustomerComponent', () => {
       userPhone: '+123456789012',
       userEmail: 'john.doe@example.com',
       userPassword: 'password123',
-      userBirthdate: '2010-01-01' // Under 18 years old
+      userBirthdate: new Date('2010-01-01') 
     };
     component.customerFormGroup.setValue(formData);
     jest.spyOn(toastService, 'showToast');
