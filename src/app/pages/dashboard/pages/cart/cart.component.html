@@ -2,6 +2,66 @@
     <div>
         <h1>Cart Details Info</h1>
     </div>
+
+    <div class="container--button">
+      <app-button
+        [buttonName]="buttonOpenModalDeleteName"
+        [buttonType]="buttonOpenModalDeleteType"
+        class="btn-open-modal"
+        (click)="openDeleteModal()"
+      ></app-button>
+    </div>
+
+    <!-- <div
+      *ngIf="modalItemDeleteVisible"
+      class="container--modal">
+      <section class="modal">
+        <h1 class="title--modal">Delete Product From Cart</h1>
+        <div class="form-field">
+          <app-label [nameLabel]="labelModalDeleteItem"></app-label>
+          <input [(ngModel)]="inputValue" class="input">
+        </div>
+       
+        <app-button
+          [buttonName]="buttonCloseModalDeleteName"
+          [buttonType]="buttonCloseModalDeleteType"
+          (click)="closeDeleteModal()"
+        ></app-button>
+      </section>
+      
+
+  </div> -->
+
+  <div *ngIf="modalItemDeleteVisible" class="modal">
+    <div class="modal__backdrop">
+      <div class="modal__container">
+        <section class="modal__header">
+          <h1 class="modal__title">Delete Product From Cart</h1>
+        </section>
+        <section class="modal__body">
+          <div class="modal__field">
+            <app-label class="modal__label" [nameLabel]="labelModalDeleteItem"></app-label>
+            <input [(ngModel)]="inputValue" class="modal__input">
+          </div>
+        </section>
+        <section class="modal__footer">
+          <app-button
+            class="modal__submit-button"
+            [buttonName]="buttonSubmitModalDeleteName"
+            [buttonType]="buttonSubmitModalDeleteType"
+            (click)="onSubmitDeleteModal()"
+          ></app-button>
+          <app-button
+            class="modal__close-button"
+            [buttonName]="buttonCloseModalDeleteName"
+            [buttonType]="buttonCloseModalDeleteType"
+            (click)="closeDeleteModal()"
+          ></app-button>
+        </section>
+      </div>
+    </div>
+  </div>
+  
     <section class="paginator--container">
         <app-input class="input"></app-input>
         <app-paginator class="paginator"

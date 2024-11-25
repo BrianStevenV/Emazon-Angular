@@ -20,3 +20,16 @@ export const TABLE_HEADERS_BRAND_NAME = 'Brand name';
 export const TABLE_HEADERS_CATEGORY_NAMES = 'Category names';
 export const TABLE_HEADERS_NEXT_SUPPLY_DATE = 'Next supply date';
 export const TABLE_HEADERS_CART_DETAILS_ID = 'Cart details id';
+
+export const BUTTON_OPEN_MODAL_DELETE_NAME = 'Delete';
+export const BUTTON_OPEN_MODAL_DELETE_TYPE = 'button';
+
+export const BUTTON_CLOSE_MODAL_DELETE_NAME = 'Close';
+export const BUTTON_CLOSE_MODAL_DELETE_TYPE = 'button';
+
+export const BUTTON_SUBMIT_MODAL_DELETE_NAME = 'Delete';
+export const BUTTON_SUBMIT_MODAL_DELETE_TYPE = 'submit';
+
+export const MODAL_VISIBLE = false;
+
+export const LABEL_DELETE_ITEM_FORM_CART = 'Please, Input the id of the item you want to delete';

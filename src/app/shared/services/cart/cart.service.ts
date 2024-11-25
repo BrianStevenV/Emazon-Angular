@@ -55,4 +55,9 @@ export class CartService {
       }))
     )
   }
+
+  deleteProductFromCartByProductId(productId: number): Observable<string> {
+    const headers = this.headers;
+    return this.http.post<string>(this.url + environment.cart_post_remove_product_to_cart + '/' + productId, { headers, observe: 'response' });
+  }
 }

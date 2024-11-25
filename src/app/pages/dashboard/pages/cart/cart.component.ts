@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_SORT_BY, TABLE_HEADERS_AMOUNT_IN_CART, TABLE_HEADERS_AMOUNT_IN_STOCK, TABLE_HEADERS_BRAND_NAME, TABLE_HEADERS_CART_DETAILS_ID, TABLE_HEADERS_CATEGORY_NAMES, TABLE_HEADERS_ID, TABLE_HEADERS_NAME, TABLE_HEADERS_NEXT_SUPPLY_DATE, TABLE_HEADERS_PRICE } from 'src/app/shared/constants/cart/cart.constants';
+import { BUTTON_CLOSE_MODAL_DELETE_NAME, BUTTON_CLOSE_MODAL_DELETE_TYPE, BUTTON_OPEN_MODAL_DELETE_NAME, BUTTON_OPEN_MODAL_DELETE_TYPE, BUTTON_SUBMIT_MODAL_DELETE_NAME, BUTTON_SUBMIT_MODAL_DELETE_TYPE, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, DEFAULT_SORT_BY, LABEL_DELETE_ITEM_FORM_CART, MODAL_VISIBLE, TABLE_HEADERS_AMOUNT_IN_CART, TABLE_HEADERS_AMOUNT_IN_STOCK, TABLE_HEADERS_BRAND_NAME, TABLE_HEADERS_CART_DETAILS_ID, TABLE_HEADERS_CATEGORY_NAMES, TABLE_HEADERS_ID, TABLE_HEADERS_NAME, TABLE_HEADERS_NEXT_SUPPLY_DATE, TABLE_HEADERS_PRICE } from 'src/app/shared/constants/cart/cart.constants';
 import { CartDetailsResponseDto } from 'src/app/shared/models/cart.model';
 import { SortDirection } from 'src/app/shared/models/paginator.model';
 import { ToastType } from 'src/app/shared/models/toast.model';
@@ -12,6 +12,22 @@ import { ToastService } from 'src/app/shared/services/toast/toast.service';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
+
+
+  inputValue!: string;
+
+  buttonOpenModalDeleteName = BUTTON_OPEN_MODAL_DELETE_NAME;
+  buttonOpenModalDeleteType = BUTTON_OPEN_MODAL_DELETE_TYPE;
+
+  buttonCloseModalDeleteName = BUTTON_CLOSE_MODAL_DELETE_NAME;
+  buttonCloseModalDeleteType = BUTTON_CLOSE_MODAL_DELETE_TYPE;
+
+  buttonSubmitModalDeleteName = BUTTON_SUBMIT_MODAL_DELETE_NAME;
+  buttonSubmitModalDeleteType = BUTTON_SUBMIT_MODAL_DELETE_TYPE;
+
+  modalItemDeleteVisible = MODAL_VISIBLE;
+
+  labelModalDeleteItem = LABEL_DELETE_ITEM_FORM_CART; 
 
   sortDirection = SortDirection.ASC;
   currentPage!:number;
@@ -70,5 +86,34 @@ export class CartComponent implements OnInit {
     this.loadCartDetails(this.currentPage, this.itemsPerPage, this.sortDirection); 
   }
 
+  openDeleteModal(){
+    this.modalItemDeleteVisible = true;
+  }
+
+  closeDeleteModal(){
+    this.modalItemDeleteVisible = false;
+  }
+
+  onSubmitDeleteModal(): void {
+    if (this.inputValue && this.inputValue.trim() !== '') {
+      this.deleteItemFromCart(Number(this.inputValue));
+      this.toastService.showToast(`Product was deleted: ${this.inputValue}`, ToastType.SUCCESS);
+      this.closeDeleteModal();
+    } else {
+      this.toastService.showToast('Please, Input a value before to send', ToastType.WARNING);
+    }
+  }
+
+  deleteItemFromCart(productId: number): void {
+    this.cartService.deleteProductFromCartByProductId(productId).subscribe({
+      next: () => {
+        this.loadCartDetails(this.currentPage, this.itemsPerPage, this.sortDirection);
+      },
+      error: (error) => {
+        this.toastService.showToast(error.error.message, ToastType.WARNING);
+      }
+    });
+  }
+  
 
 }
